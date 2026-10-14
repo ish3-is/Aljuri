@@ -8,17 +8,52 @@ Run with:
 from __future__ import annotations
 
 import logging
+import sys
+from contextlib import asynccontextmanager
+from pathlib import Path
 
 from fastapi import APIRouter, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.routes import router
 from app.core.config import settings
+from app.ml.model_readiness import policy_check
 
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s %(levelname)-8s %(name)s: %(message)s",
 )
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Startup validation for mandatory runtime models.
+
+    BASIRAH uses STRICT_STARTUP for its three runtime-required models:
+    if any model is missing, zero-byte, still a Git LFS pointer, or
+    otherwise unreadable, the service fails to start with a clear error
+    instead of booting with a broken model.
+
+    This is the deployment-safe behavior. In production the models are
+    shipped via Git LFS and the preflight passes; this is a defensive gate
+    that protects against a bad build artefact.
+    """
+    allowed, reason = policy_check()
+    if not allowed:
+        print(
+            "FATAL: BASIRAH startup blocked — runtime model preflight failed: "
+            f"{reason}",
+            file=sys.stderr,
+        )
+        print(
+            "FATAL: Run `git lfs pull` and reinstall if the models are "
+            "missing or still LFS pointers.",
+            file=sys.stderr,
+        )
+        sys.exit(1)
+    print("BASIRAH startup: runtime model preflight passed.", flush=True)
+    yield
+
 
 app = FastAPI(
     title=settings.app_name,
@@ -29,6 +64,7 @@ app = FastAPI(
         "no page is fetched, no JavaScript is executed, and no external "
         "service is contacted."
     ),
+    lifespan=lifespan,
 )
 
 # CORS is restricted to explicit development origins. A production

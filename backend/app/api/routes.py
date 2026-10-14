@@ -12,6 +12,7 @@ from app.core.config import settings
 from app.image.model_loader import model_status as image_model_status
 from app.image.service import analyze_image
 from app.image.validation import ImageValidationError
+from app.ml.model_readiness import health_readiness
 from app.ml.production import production_status, safety_status
 from app.ml.feature_schema import model_feature_names
 from app.schemas.requests import HealthResponse, URLEngineInfo, URLAnalysisRequest
@@ -28,12 +29,17 @@ router = APIRouter(prefix="/api", tags=["analysis"])
 @router.get("/health", response_model=HealthResponse, tags=["system"])
 def health() -> HealthResponse:
     """Liveness plus honest reporting of which components are active."""
+    readiness = health_readiness()
+    # `lfs: dict[str, bool]` maps each runtime model to its availability.
+    # The aggregate boolean `ready` is the deployment decision for startup;
+    # the per-model detail is what the API consumer reads.
     return HealthResponse(
         status="ok",
         service="BASIRAH Digital Trust Intelligence",
         version=settings.version,
         phase="Phase 4 — Multimodal Intelligence",
         model_available=production_status()[0],
+        lfs={name: m["available"] for name, m in readiness["models"].items()},
         url_engine=URLEngineInfo(
             model_available=production_status()[0],
             heuristic_rules=len(RULES),

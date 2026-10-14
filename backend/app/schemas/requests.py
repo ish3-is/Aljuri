@@ -45,4 +45,5 @@ class HealthResponse(BaseModel):
     version: str
     phase: str
     model_available: bool
+    lfs: dict[str, bool]
     url_engine: URLEngineInfo
