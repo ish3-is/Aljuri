@@ -128,9 +128,6 @@ export function AnalyzePage() {
   const showJourney = isAnalyzing || isResult
   const showResultPanels = isResult
 
-  // Showcase mode disables live analysis and renders the sample surface.
-  const isShowcaseIdle = isShowcase && !isAnalyzing && !isResult
-
   /**
    * The image-only panels render from `imageDetail`, which the image
    * provider populates and nothing else does. Checking the field
