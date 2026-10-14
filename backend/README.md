@@ -6,11 +6,13 @@ A submitted URL is **parsed, never opened**. No page is fetched, no
 JavaScript is executed, no external service is contacted, and no paid API
 is used.
 
-> **No trained model ships with this repository.** The training pipeline is
-> complete and verified, but no real labelled dataset has been acquired, so
-> no model is included and no evaluation metrics are claimed.
->
-> **Real model evaluation is pending dataset acquisition.**
+> **Advisory models.** BASIRAH ships three runtime ML models via Git LFS:
+> `backend/models/basirah-url-v3.joblib`,
+> `backend/models/detector_b_clip_probe.joblib`, and
+> `backend/models/multifamily_candidates/efficientnet_b0__C_holdout_Midjourney.pt`.
+> Small metadata files (ACTIVE_MODEL.json, RESEARCH_IMAGE_MODEL.json,
+> feature_schema.json) are tracked as normal Git text. No
+> model-performance claims are made.
 
 ---
 

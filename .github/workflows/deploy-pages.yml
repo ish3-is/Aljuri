@@ -1,0 +1,65 @@
+# BASIRAH — GitHub Pages Deployment Workflow
+
+# Frontend-only GitHub Pages deployment. The FastAPI backend is hosted
+# externally (Render / Railway / Fly.io) and is not deployed by this
+# workflow.
+
+name: BASIRAH — Frontend (GitHub Pages)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'basirah/**'
+      - '.github/workflows/deploy-pages.yml'
+  workflow_dispatch:
+
+# Allow only one concurrent deployment; skip runs queued between the
+# in-progress run and the latest queued run.
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: |
+          cd basirah
+          npm ci --no-audit --no-fund
+
+      - name: Build
+        run: |
+          cd basirah
+          npm run build
+        env:
+          # Same-origin /api for GitHub Pages subpath deployment.
+          # Set VITE_API_BASE_URL in production only when the backend is
+          # hosted on a separate domain (external HTTPS backend).
+          VITE_API_BASE_URL: ""
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: basirah/dist
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
