@@ -627,7 +627,7 @@ node scripts/verify-ui.mjs                # UI checks
    or dereferenced. JavaScript and external resources are never executed.
 3. **No file execution.** Uploaded files are sanitized and inspected, never
    executed.
-4. **No trained model ships with this repository.** The training pipeline
+4. **Advisory models.** BASIRAH ships three runtime ML models via Git LFS:
    is complete and verified, but no real labelled dataset has been
    acquired, so no model is included and no evaluation metrics are claimed.
 5. **Model evaluation is pending dataset acquisition.** Any reported
