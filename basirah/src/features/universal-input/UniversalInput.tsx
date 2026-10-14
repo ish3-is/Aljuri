@@ -7,6 +7,7 @@ import { useI18n } from '../../i18n/useI18n'
 import { EXAMPLE_URL } from '../../data/mockAnalysis'
 import { cn } from '../../lib/utils'
 import { Magnetic } from '../../components/ui/primitives'
+import { useAppMode } from '../../hooks/useAppMode'
 import type { InvestigationState } from '../../types/analysis'
 
 /* ============================================================
@@ -58,6 +59,7 @@ export function UniversalInput({
   onDragStateChange,
 }: UniversalInputProps) {
   const { t } = useI18n()
+  const { isShowcase } = useAppMode()
   const [value, setValue] = useState('')
   const [dragging, setDragging] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -69,10 +71,7 @@ export function UniversalInput({
 
   // Showcase mode disables all real intake paths. The UI remains fully
   // navigable; only analysis drops to the clearly-labelled sample surface.
-  const isShowcase = import.meta.env.VITE_APP_MODE === 'showcase'
   const isShowcaseBusy = isShowcase && isBusy
-  const isShowcaseResult = isShowcase && isResult
-  const isShowcaseIdle = isShowcase && !isBusy && !hasSignal && !isResult
   const acceptFile = useCallback(
     (file: File) => {
       const kind = detectSignalKind(file.name, file)

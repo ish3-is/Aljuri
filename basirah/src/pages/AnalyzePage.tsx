@@ -1,8 +1,7 @@
 import { lazy, Suspense } from 'react'
 import { useState } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
-import {
-  File as FileIcon,
+import { File as FileIcon,
   FileText,
   Image as ImageIcon,
   Link2,
