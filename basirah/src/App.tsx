@@ -5,6 +5,7 @@ import { BrandReveal } from './components/brand/BrandReveal'
 import { IntelligenceTicker } from './components/motion/IntelligenceTicker'
 import { BasirahFooter } from './components/layout/BasirahFooter'
 import { BasirahHeader } from './components/layout/BasirahHeader'
+import { AppModeProvider } from './hooks/AppModeProvider'
 import { I18nProvider } from './i18n/I18nProvider'
 import { useSection } from './hooks/useSection'
 import { AnalyzePage } from './pages/AnalyzePage'
@@ -94,10 +95,12 @@ const ReportsPage = lazy(() =>
  */
 export default function App() {
   return (
-    <I18nProvider>
-      <AmbientBackground />
-      <BasirahApp />
-    </I18nProvider>
+    <AppModeProvider>
+      <I18nProvider>
+        <AmbientBackground />
+        <BasirahApp />
+      </I18nProvider>
+    </AppModeProvider>
   )
 }
 

@@ -1665,6 +1665,49 @@ export const translations = {
       en: 'This is not independent real-world deployment validation.',
       ar: 'هذا ليس تحقّقاً مستقلاً من النشر في العالم الحقيقي.',
     },
+  /* ------------------------------------------------------------------ */
+  /* Deliverability: Showcase (GitHub Pages) mode                       */
+  /* ------------------------------------------------------------------ */
+  analyze: {
+    showcaseSubtitle: {
+      en: 'Showcase Mode — explore the interface.',
+      ar: 'وضع العرض — مستكشف صورة واجهة التطبيق.',
+    },
+    showcaseHint: {
+      en: 'Live analysis requires the local BASIRAH backend.',
+      ar: 'يتطلب التحليل الفعلي تشغيل خادم بصيرة محليًا.',
+    },
+    sampleLabel: {
+      en: 'DEMO — sample analysis result (static, not live).',
+      ar: 'عينة تجريبية — نتيجة تحليل ثابتة (ليست حية).',
+    },
+    sample: {
+      field: {
+        assessment: { en: 'Assessment', ar: 'تقييم' },
+        risk: { en: 'Risk', ar: 'مستوى الخطورة' },
+        coverage: { en: 'Coverage', ar: 'تغطية' },
+        provenance: { en: 'Provenance', ar: 'مصدر المحتوى' },
+      },
+      value: {
+        assessment: {
+          en: 'Demo: uncertain',
+          ar: 'عينة: غير مؤكد',
+        },
+        risk: {
+          en: 'Demo: caution',
+          ar: 'عينة: حفظ',
+        },
+        coverage: {
+          en: 'Demo: partial',
+          ar: 'عينة: جزئي',
+        },
+        provenance: {
+          en: 'Demo: limited / invalid example',
+          ar: 'عينة: محدود / غير صالح',
+        },
+      },
+    },
+  },
   },
 
   /* ------------------------------------------------------------------ */

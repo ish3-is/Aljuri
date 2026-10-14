@@ -52,6 +52,11 @@ jobs:
           # hosted on a separate domain (external HTTPS backend).
           VITE_API_BASE_URL: ""
 
+          # BUILD-TIME DELIVERY MODE — GitHub Pages runs in showcase mode.
+          # Showcase mode disables live API calls and renders a static,
+          # clearly-labelled demo surface instead.
+          VITE_APP_MODE: "showcase"
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 

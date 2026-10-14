@@ -6,6 +6,10 @@ import { defineConfig } from 'vite'
 // (project site `/basirah/`, a custom domain, or a local preview) without
 // hardcoding a root-only asset prefix. Vite rewrites every emitted asset
 // URL at build time, including hashed bundles.
+//
+// GitHub Pages (showcase) overrides this at build time via the workflow:
+// `VITE_APP_MODE=showcase` + `VITE_GITHUB_PAGES_BASE=/Aljuri/` → base '/Aljuri/'.
+// Local development and local builds keep the relative base './'.
 export default defineConfig({
   base: './',
   plugins: [react(), tailwindcss()],
