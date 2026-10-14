@@ -1,0 +1,43 @@
+/**
+ * "The Year of the Camel" — Arabic display face for BASIRAH.
+ *
+ * Copied into src/assets/fonts/ so the app never references a path in the
+ * user's Downloads folder. Three weights are shipped deliberately:
+ *
+ *   ExtraBold -> Arabic headings, hero title, badges  (identity)
+ *   Medium    -> navigation emphasis, labels, buttons (emphasis)
+ *   Regular   -> long-form Arabic body copy (readability)
+ *
+ * Shipping only ExtraBold would make paragraphs heavy and tiring to
+ * read, which would trade readability for branding. The brief asked for
+ * the font to strengthen identity, not reduce readability, so weight is
+ * assigned by role rather than applied globally.
+ *
+ * Arabic numerals and embedded Latin strings (student IDs, URLs, model
+ * versions) are deliberately left to the Latin stack by the
+ * `ltr-embed` utility, so this face never has to render them.
+ */
+
+@font-face {
+  font-family: 'The Year of the Camel';
+  src: url('../assets/fonts/ArbFONTS-TheYearofTheCamel-ExtraBold.otf') format('opentype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'The Year of the Camel';
+  src: url('../assets/fonts/ArbFONTS-TheYearofTheCamel-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'The Year of the Camel';
+  src: url('../assets/fonts/ArbFONTS-TheYearofTheCamel-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}

@@ -1,0 +1,38 @@
+{
+  "bundle": "basirah-url-v3.joblib",
+  "metadata": "basirah-url-v3.metadata.json",
+  "model_version": "3.0.0",
+  "promoted_at": "2026-10-04",
+  "promoted_by": "Phase 2E — Final URL Production Hardening",
+  "decision_record": "backend/results/phase2e/promotion_decision.json",
+  "supersedes": "basirah-url-v1.joblib",
+  "rollback": {
+    "how": "Set \"bundle\" to \"basirah-url-v1.joblib\" (and \"metadata\" to \"basirah-url-v1.metadata.json\") in this file. No code change is required.",
+    "v1_retained": true,
+    "v1_sha256": "db682cf8f472127961d4ad4a6062ea8210b413469f014aa51e5618802a07a802"
+  },
+  "evidence": {
+    "real_world_legitimate_fp_of_14": {"v1": 10, "v3": 5},
+    "recall_at_matched_fpr": {
+      "0.01": {"v1": 0.155, "v3": 0.558},
+      "0.03": {"v1": 0.155, "v3": 0.698},
+      "0.05": {"v1": 0.289, "v3": 0.750},
+      "0.10": {"v1": 0.344, "v3": 0.842}
+    },
+    "worst_corpus_roc_auc": {"v1": 0.3112, "v3": 0.8481},
+    "grouped_domain_roc_auc": {"v1": 0.5738, "v3": 0.9476},
+    "semantic_phishing_false_negatives": {"v1": 11, "v3": 0}
+  },
+  "why_not_v4": {
+    "candidate": "base_39|xgboost (models/basirah-url-v4.joblib)",
+    "verdict": "trained and retained, NOT promoted",
+    "real_world_fp_of_14": 6,
+    "semantic_phishing_false_negatives": 1,
+    "phistank_recall_at_fpr_0.05": 0.701,
+    "reason": "regresses against v3 on real-world false positives, phishing false negatives and held-out phishing recall at every matched FPR; it improves worst-corpus AUC only marginally"
+  },
+  "safety": {
+    "fit_for_automated_blocking": false,
+    "notice": "Advisory only. Still misclassifies 5 of 14 well-known legitimate URLs and misses roughly a quarter of held-out verified phishing at a 5% false-positive rate."
+  }
+}

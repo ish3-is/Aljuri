@@ -1,0 +1,66 @@
+{
+ "corpus": "aigcdetection_benchmark_Midjourney",
+ "source": "aigcdetection_benchmark",
+ "generator_group": "Midjourney",
+ "n_images_declared": 260,
+ "n_images_verified_decoding": 260,
+ "n_undecodable_or_missing": 0,
+ "undecodable_examples": [],
+ "undecodable_reasons": {},
+ "width": {
+  "min": 1024.0,
+  "p25": 1024.0,
+  "median": 1024.0,
+  "p75": 1024.0,
+  "max": 1024.0,
+  "mean": 1024.0
+ },
+ "height": {
+  "min": 1024.0,
+  "p25": 1024.0,
+  "median": 1024.0,
+  "p75": 1024.0,
+  "max": 1024.0,
+  "mean": 1024.0
+ },
+ "pixels": {
+  "min": 1048576.0,
+  "p25": 1048576.0,
+  "median": 1048576.0,
+  "p75": 1048576.0,
+  "max": 1048576.0,
+  "mean": 1048576.0
+ },
+ "orientation": {
+  "square": 260
+ },
+ "format": {
+  "PNG": 260
+ },
+ "mode": {
+  "RGB": 260
+ },
+ "file_bytes": {
+  "min": 445841.0,
+  "p25": 1008896.0,
+  "median": 1186783.5,
+  "p75": 1421339.25,
+  "max": 2244524.0,
+  "mean": 1233680.1538461538
+ },
+ "megapixels_hist": {
+  "0-0": 0,
+  "0-1": 0,
+  "1-99": 260
+ },
+ "top_resolutions": {
+  "1024x1024": 260
+ },
+ "resolution_hist": {
+  "1024x1024": 260
+ },
+ "exif_present": 0,
+ "exif_present_pct": 0.0,
+ "camera_makes": {},
+ "camera_models": {}
+}

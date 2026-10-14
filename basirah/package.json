@@ -1,0 +1,46 @@
+{
+  "name": "basirah",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "verify:wording": "node scripts/verify-wording.mjs",
+    "verify:mapper": "node --experimental-strip-types scripts/verify-report-mapper.mjs ../backend/results/phase37/blind_defense_test.json",
+    "verify": "node scripts/verify-ui.mjs && node scripts/verify-wording.mjs && node scripts/verify-excel-sanitiser.mjs",
+    "qa:p37": "node qa/qa-p37.cjs",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "clsx": "^2.1.1",
+    "exceljs": "^4.4.0",
+    "lucide-react": "^1.50.0",
+    "motion": "^14.0.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "recharts": "^3.10.1",
+    "tailwindcss": "^4.3.3"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^24.13.3",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
+    "@vitejs/plugin-react": "^6.1.1",
+    "eslint": "^10.10.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.6",
+    "globals": "^17.12.0",
+    "jsdom": "^30.1.2",
+    "sharp": "^0.35.5",
+    "typescript": "~6.0.2",
+    "typescript-eslint": "^8.69.0",
+    "vite": "^8.3.0"
+  },
+  "overrides": {
+    "uuid": "^11.1.1"
+  }
+}

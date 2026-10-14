@@ -1,0 +1,168 @@
+{
+ "source": "TheKernel01/AIGC-Detection-Benchmark",
+ "source_url": "https://huggingface.co/datasets/TheKernel01/AIGC-Detection-Benchmark",
+ "license": "apache-2.0",
+ "license_source": "Hugging Face dataset card YAML front matter: `license: apache-2.0`",
+ "license_caveat": "Apache-2.0 is permissive for THIS HF repackaging, but it is an UNVERIFIED aggregator: the card does not state which upstream corpora are bundled or under what terms each was licensed. Treat as 'clear at the mirror, unverified per constituent image'. Images are never committed to git.",
+ "paper": "unofficial aggregation; card describes binary real/fake + 18-way source-model identification. No citation given.",
+ "access": "public, no authentication required",
+ "download_date": "2026-10-04",
+ "classes": {
+  "0": "real (photograph)",
+  "1": "synthetic (generator output)"
+ },
+ "label_definition": {
+  "0": "real",
+  "1": "synthetic"
+ },
+ "generator_family": {
+  "documented": true,
+  "fields_used": [
+   "generator"
+  ],
+  "note": "Generator identity is read per-row from the dataset's own `generator` ClassLabel column (18 values). It is NEVER inferred from a filename or from image content. Zero unlabelled synthetic images. Architecture families below are assigned from the documented generator NAME only.",
+  "architecture_families_from_documented_names": [
+   "GAN",
+   "LatDiff",
+   "PixelDiffusion",
+   "Unknown_Architecture"
+  ]
+ },
+ "generator_families_present": {
+  "PixelDiffusion": 780,
+  "GAN": 1959,
+  "LatDiff": 1300,
+  "Unknown_Architecture": 260,
+  "real": 900
+ },
+ "n_distinct_generators_obtained": 17,
+ "distinct_generators": [
+  "ADM",
+  "BigGAN",
+  "CycleGAN",
+  "DALLE2",
+  "GLIDE",
+  "GauGAN",
+  "Midjourney",
+  "ProGAN",
+  "SD14",
+  "SD15",
+  "SDXL",
+  "StarGAN",
+  "StyleGAN",
+  "StyleGAN2",
+  "VQDM",
+  "WhichFaceIsReal",
+  "Wukong"
+ ],
+ "unlabelled_generators": 0,
+ "unlabelled_generators_note": "Zero images have an undocumented generator: every synthetic image's generator is read from the source's documented `generator` column.",
+ "generator_family_assignment": {
+  "GAN": [
+   "BigGAN",
+   "CycleGAN",
+   "GauGAN",
+   "ProGAN",
+   "StarGAN",
+   "StyleGAN",
+   "StyleGAN2",
+   "WhichFaceIsReal"
+  ],
+  "PixelDiffusion": [
+   "ADM",
+   "GLIDE",
+   "VQDM"
+  ],
+  "LatDiff": [
+   "DALLE2",
+   "SD14",
+   "SD15",
+   "SDXL",
+   "Wukong"
+  ],
+  "Unknown_Architecture": [
+   "Midjourney"
+  ],
+  "note": "LatDiff is listed for completeness but is the family our existing corpus already over-represents. The genuinely NEW cross-family signal here is GAN (8 generators) and PixelDiffusion (3 generators: ADM/GLIDE/VQDM are non-Latent pixel-space diffusion, architecturally unrelated to Stable Diffusion fine-tunes)."
+ },
+ "total_images": 5199,
+ "per_class": {
+  "synthetic": 4299,
+  "real": 900
+ },
+ "shards_downloaded": [
+  {
+   "file": "data/test-00001-of-00060.parquet",
+   "bytes": 497140544,
+   "sha256": "496c762f5c223b19c7d99177f4e3b43397ecf8d203d0081ebd721b4db9e06f2e",
+   "size_matches_hub_metadata": true,
+   "parquet_magic_par1_ok": true,
+   "footer_length_bytes": 4055,
+   "footer_length_ok": true,
+   "complete": true
+  },
+  {
+   "file": "data/test-00002-of-00060.parquet",
+   "bytes": 493873776,
+   "sha256": "7bf720288c8235d58cbca7cfa6d5c0a5a4f552af2b93f7433b54ec1d4dd194d9",
+   "size_matches_hub_metadata": true,
+   "parquet_magic_par1_ok": true,
+   "footer_length_bytes": 4053,
+   "footer_length_ok": true,
+   "complete": true
+  },
+  {
+   "file": "data/test-00003-of-00060.parquet",
+   "bytes": 513344616,
+   "sha256": "81dcf70305168d46d1261a16d31853faeee2bddcf46bcd8df322c8bf0c47d3d7",
+   "size_matches_hub_metadata": true,
+   "parquet_magic_par1_ok": true,
+   "footer_length_bytes": 4055,
+   "footer_length_ok": true,
+   "complete": true
+  },
+  {
+   "file": "data/test-00004-of-00060.parquet",
+   "bytes": 519040932,
+   "sha256": "fef1622f426ec116cd061b1548556a2721cce06cee11ad5565f801f85357c75b",
+   "size_matches_hub_metadata": true,
+   "parquet_magic_par1_ok": true,
+   "footer_length_bytes": 4056,
+   "footer_length_ok": true,
+   "complete": true
+  },
+  {
+   "file": "data/test-00005-of-00060.parquet",
+   "bytes": 515866776,
+   "sha256": "e870ebfd449e3abd60e25edbccc74fcf8ce607e13bf5880782749a6cc8d658bf",
+   "size_matches_hub_metadata": true,
+   "parquet_magic_par1_ok": true,
+   "footer_length_bytes": 4054,
+   "footer_length_ok": true,
+   "complete": true
+  },
+  {
+   "file": "data/test-00006-of-00060.parquet",
+   "bytes": 527947338,
+   "sha256": "2c996f85cf1b8046450cc3168784a8657882eae8523f31c6f3e80a880b75165a",
+   "size_matches_hub_metadata": true,
+   "parquet_magic_par1_ok": true,
+   "footer_length_bytes": 4056,
+   "footer_length_ok": true,
+   "complete": true
+  }
+ ],
+ "shard_fraction_of_full_release": "6 of 60 shards (shards 00001-00006); shard 00000 was downloaded only as an integrity probe. Full release is 125,026 images / ~32.0 GB.",
+ "provenance_caveats": [
+  "Real-image corpus is NOT homogeneous and NOT documented per-image: 402 of 900 real rows name their corpus explicitly via the source's own image `path` field (ILSVRC2012_val_*.JPEG = ImageNet validation). The remaining 498 real rows carry only opaque filenames and are recorded as real_source=null / UNDOCUMENTED_real_corpus. They are NOT fabricated as ImageNet.",
+  "Because real provenance is per-image partly unknown, real images cannot be paired 1:1 with the training corpus of a specific generator. This is the one real limitation on source-controlled design (see source_confound_analysis).",
+  "WhichFaceIsReal/ProGAN/StyleGAN/GauGAN real images likely originate in the generator's own training distribution (LSUN/CelebA/ADE20K); that is EXPECTED for a forensics benchmark but means the real class is drawn from multiple different corpora, not one.",
+  "This release ships a single `test` split only; it is an evaluation benchmark by design and must not be used as training data for our detector.",
+  "ProGAN yielded only 139 images (not 260): the 6 downloaded shards contain few ProGAN rows. Do not treat 260 as uniform across generators.",
+  "The HF mirror carries no license per constituent upstream corpus; Apache-2.0 covers the mirror's packaging only.",
+  "EXACT DUPLICATE: exactly 1 pair of files in this extraction is byte-identical (sha256 identical). Paths: datasets/image/raw/aigcdetection_benchmark/synthetic/GAN/000013_CycleGAN.png / datasets/image/raw/aigcdetection_benchmark/synthetic/GAN/000028_CycleGAN.png. 5198 of 5199 files are unique. Deduplicate on sha256 before any split."
+ ],
+ "audit_files": "datasets/image/audit/aigcdetection_benchmark_*.json (18 files, one per generator group, including real)",
+ "records_file": "datasets/image/manifests/_aigcdetection_benchmark_records.json",
+ "images_never_committed_to_git": true
+}

@@ -1,0 +1,433 @@
+@import 'tailwindcss';
+
+/* Colour, depth and ambience are defined in theme.css, which owns the
+   semantic token layer and the Tailwind bridge. Fonts come from
+   fonts.css, print rules from print.css. This file owns type, focus
+   and the shared utilities — it deliberately holds no colour literal
+   of its own, so there is exactly one place a colour is decided. */
+@import './theme.css';
+@import './fonts.css';
+@import './print.css';
+
+/* ============================================================
+   Base layer
+   ============================================================ */
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100svh;
+    background-color: var(--bas-bg);
+    color: var(--bas-text-primary);
+    font-family: var(--font-latin);
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    /* The theme can change under the reader (OS switch, or the in-app
+       toggle). Colour transitions so the change reads as a deliberate
+       shift rather than a flash. */
+    transition:
+      background-color 260ms ease,
+      color 260ms ease;
+  }
+
+  /* --- Arabic: the body face is the readable Regular weight.
+      Weight is applied by ROLE through the utilities below, never
+      globally, because this display family is heavy at body size
+      and the platform still has long paragraphs to read. --- */
+  html[lang='ar'] {
+    font-family: var(--font-arabic);
+    font-size: 17.5px;
+  }
+
+  html[lang='ar'] body {
+    font-family: var(--font-arabic);
+    line-height: 1.9;
+  }
+
+  /* Arabic headings take the identity face at its real weight.
+     This replaces the old blanket `font-weight: 600`, which forced
+     the browser to synthesise a weight the face did not have and
+     smeared the glyphs at display sizes. */
+  html[lang='ar'] h1,
+  html[lang='ar'] h2,
+  html[lang='ar'] h3 {
+    font-family: var(--font-arabic-display);
+    font-weight: 800;
+    letter-spacing: 0;
+  }
+
+  /* Latin display headings get tight tracking; Arabic must not. */
+  h1,
+  h2,
+  h3 {
+    letter-spacing: -0.03em;
+    font-weight: 300;
+  }
+
+  button {
+    font: inherit;
+    color: inherit;
+  }
+
+  input,
+  textarea {
+    font: inherit;
+    color: inherit;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--bas-accent-cyan);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background-color: color-mix(in srgb, var(--bas-accent-cyan) 28%, transparent);
+    color: var(--bas-text-primary);
+  }
+
+  /* Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--bas-border-bright) transparent;
+  }
+}
+
+/* ============================================================
+   Arabic role utilities
+
+   Four roles across three faces:
+     .font-arabic-display  800 — headings, hero title, badges, stamps
+     .font-arabic-emph      500 — nav labels, buttons, section titles
+     .font-arabic           400 — long-form body copy (the default)
+     .font-arabic-body      400 — explicit pin, so a heading nested
+                                 inside report prose cannot pull the
+                                 display weight into a paragraph
+
+   These are no-ops outside Arabic. In English the Latin stack owns
+   the text, and forcing this family onto Latin glyphs would render
+   nothing, since it carries no Latin design.
+   ============================================================ */
+
+@utility font-arabic-display {
+  html[lang='ar'] & {
+    font-family: var(--font-arabic-display);
+    font-weight: 800;
+  }
+}
+
+@utility font-arabic-emph {
+  html[lang='ar'] & {
+    font-family: var(--font-arabic-emph);
+    font-weight: 500;
+  }
+}
+
+@utility font-arabic-body {
+  html[lang='ar'] & {
+    font-family: var(--font-arabic);
+    font-weight: 400;
+  }
+}
+
+/* ============================================================
+   Component utilities
+   ============================================================ */
+
+@utility text-gradient-signal {
+  background-image: linear-gradient(
+    100deg,
+    var(--bas-accent-cyan) 0%,
+    color-mix(in srgb, var(--bas-accent-cyan) 45%, var(--bas-text-primary)) 45%,
+    var(--bas-accent-violet) 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+/* Thin luminous rule used under section labels */
+@utility hairline {
+  background-image: linear-gradient(
+    90deg,
+    transparent,
+    var(--bas-border-bright) 18%,
+    var(--bas-border-bright) 82%,
+    transparent
+  );
+}
+
+/* Frosted surface. Deliberately restrained — blur is used on a handful
+   of surfaces, never stacked on every panel. The fill sits well toward
+   opaque because a translucent white surface over a light background
+   would otherwise wash out the dark text on top of it. */
+@utility panel-glass {
+  background-color: color-mix(in srgb, var(--bas-surface) 88%, transparent);
+  backdrop-filter: blur(14px) saturate(120%);
+  -webkit-backdrop-filter: blur(14px) saturate(120%);
+  border: 1px solid var(--bas-border);
+}
+
+@utility mono-label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+html[lang='ar'] .mono-label {
+  font-family: var(--font-arabic-emph);
+  font-size: 0.75rem;
+  letter-spacing: 0;
+  text-transform: none;
+  font-weight: 500;
+}
+
+/* Latin-only labels (URLs, timestamps, score digits) must keep the
+   mono face and LTR ordering even while the page is RTL. */
+@utility ltr-embed {
+  direction: ltr;
+  unicode-bidi: isolate;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Extracted text — OCR output, QR payloads, encoding previews —
+   has a direction the app does not know until it reads it. An
+   Arabic screenshot yields RTL text; a Latin one yields LTR. Forcing
+   either would mangle the other, so this isolates the run and lets
+   the browser pick from the first strong character. Used together
+   with dir="auto" on the element. */
+@utility bidi-auto {
+  unicode-bidi: isolate;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* ============================================================
+   Keyframes
+   ============================================================ */
+
+@keyframes basirah-scan {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  88% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+@keyframes basirah-spin-cw {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes basirah-spin-ccw {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes basirah-breathe {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.06);
+  }
+}
+
+@keyframes basirah-drift {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  33% {
+    transform: translate3d(3%, -4%, 0);
+  }
+  66% {
+    transform: translate3d(-3%, 3%, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes basirah-signal-dash {
+  to {
+    stroke-dashoffset: -100;
+  }
+}
+
+@keyframes basirah-pulse-node {
+  0%,
+  100% {
+    opacity: 0.25;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.9);
+  }
+}
+
+@keyframes basirah-flicker {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  92% {
+    opacity: 1;
+  }
+  94% {
+    opacity: 0.82;
+  }
+  96% {
+    opacity: 1;
+  }
+}
+
+/* Ticker marquee. The distance is fixed at -50% because the track
+   holds exactly two copies of the item set, so translating by half
+   the track width lands copy two precisely where copy one began. The
+   loop point is a visual identity, not an approximation — which is
+   why there is never a blank gap after the last item. */
+@keyframes basirah-marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-spin-cw {
+  animation: basirah-spin-cw 34s linear infinite;
+}
+.animate-spin-ccw {
+  animation: basirah-spin-ccw 46s linear infinite;
+}
+.animate-breathe {
+  animation: basirah-breathe 7s var(--ease-in-out-quint) infinite;
+}
+/* Drift glows must never escape the viewport on small screens. */
+.animate-drift {
+  animation: basirah-drift 34s ease-in-out infinite;
+  max-inline-size: 100%;
+  min-inline-size: 0;
+}
+.animate-scan {
+  animation: basirah-scan 3.4s linear infinite;
+}
+.animate-flicker {
+  animation: basirah-flicker 8s linear infinite;
+}
+
+/* Hover pause. A reader who reaches for the strip to read a line must
+   not have it slide out from under the pointer. Done in CSS so it
+   costs no React render. */
+.basirah-ticker__track:hover {
+  animation-play-state: paused;
+}
+
+/* ============================================================
+   Reduced motion
+   Ambient loops are killed; state changes become short fades so the
+   product still communicates system state without continuous motion.
+   ============================================================ */
+/* Mobile (390px): the duplicated marquee track never fits a narrow
+   screen, so we cap the track to the block width, allow the items to
+   wrap, and disable motion. */
+@media (width <= 40rem) {
+  .basirah-ticker__track {
+    width: max-content;
+    max-width: 100%;
+    min-width: 0;
+    flex: 0 1 auto;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+    animation: none !important;
+    transform: none !important;
+    overflow: visible;
+  }
+  .basirah-ticker__track > ul {
+    flex: 0 1 auto;
+    flex-shrink: 1;
+    min-width: 0;
+  }
+  .basirah-ticker__track > ul > li {
+    flex: 0 1 auto;
+    flex-shrink: 1;
+    min-width: 0;
+  }
+}
+
+/* Mobile (390px): drift glows are fixed-size decorative blobs that
+   escape the viewport on narrow screens. Constrain them to the
+   viewport width and hide the drift translation. */
+@media (width <= 40rem) {
+  .animate-drift {
+    max-inline-size: 100%;
+    min-inline-size: 0;
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
+/* Mobile (390px): forensic evidence artifacts (SHA fingerprint,
+   trace hashes, mono labels) wrap instead of overflowing the
+   evidence card. */
+
+/* ============================================================
+   Reduced motion
+   Ambient loops are killed; state changes become short fades so the
+   product still communicates system state without continuous motion.
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 120ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* The ticker must not vanish under reduced motion — a reader still
+     needs the content. It stops moving and becomes an ordinary
+     scrollable strip instead. */
+  .basirah-ticker__track {
+    animation: none !important;
+    transform: none !important;
+  }
+}

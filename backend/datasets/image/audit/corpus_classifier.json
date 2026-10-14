@@ -1,0 +1,160 @@
+{
+ "n_samples": 12807,
+ "n_real": 10595,
+ "n_synthetic": 2212,
+ "corpus_groups": {
+  "communityforensics_small_real": 400,
+  "communityforensics_small_synthetic": 2212,
+  "flickr30k_flat": 7196,
+  "flickr30k_real": 2999
+ },
+ "results": {
+  "container_only": {
+   "auc_randomforest_in_distribution": 0.9825,
+   "auc_logreg_in_distribution": 0.9825,
+   "top_importances": [
+    {
+     "feature": "is_png",
+     "importance": 0.5067
+    },
+    {
+     "feature": "is_jpeg",
+     "importance": 0.4933
+    },
+    {
+     "feature": "mode_rgb",
+     "importance": 0.0
+    },
+    {
+     "feature": "mode_l",
+     "importance": 0.0
+    }
+   ],
+   "accuracy_identifying_which_corpus": 0.7346,
+   "corpus_id_chance_level": 0.5619,
+   "corpus_id_classes": [
+    "communityforensics_small_real",
+    "communityforensics_small_synthetic",
+    "flickr30k_flat",
+    "flickr30k_real"
+   ]
+  },
+  "dimensions_only": {
+   "auc_randomforest_in_distribution": 1.0,
+   "auc_logreg_in_distribution": 0.9938,
+   "top_importances": [
+    {
+     "feature": "h",
+     "importance": 0.3363
+    },
+    {
+     "feature": "px",
+     "importance": 0.3325
+    },
+    {
+     "feature": "w",
+     "importance": 0.3304
+    },
+    {
+     "feature": "aspect",
+     "importance": 0.0008
+    }
+   ],
+   "accuracy_identifying_which_corpus": 0.7499,
+   "corpus_id_chance_level": 0.5619,
+   "corpus_id_classes": [
+    "communityforensics_small_real",
+    "communityforensics_small_synthetic",
+    "flickr30k_flat",
+    "flickr30k_real"
+   ]
+  },
+  "filesize_only": {
+   "auc_randomforest_in_distribution": 0.9995,
+   "auc_logreg_in_distribution": 0.9681,
+   "top_importances": [
+    {
+     "feature": "log_bytes",
+     "importance": 0.3891
+    },
+    {
+     "feature": "bytes",
+     "importance": 0.3632
+    },
+    {
+     "feature": "bpp",
+     "importance": 0.2478
+    }
+   ],
+   "accuracy_identifying_which_corpus": 0.6956,
+   "corpus_id_chance_level": 0.5619,
+   "corpus_id_classes": [
+    "communityforensics_small_real",
+    "communityforensics_small_synthetic",
+    "flickr30k_flat",
+    "flickr30k_real"
+   ]
+  },
+  "exif_only": {
+   "auc_randomforest_in_distribution": 0.5,
+   "auc_logreg_in_distribution": 0.5,
+   "top_importances": [
+    {
+     "feature": "exif",
+     "importance": 0.0
+    },
+    {
+     "feature": "make",
+     "importance": 0.0
+    }
+   ],
+   "accuracy_identifying_which_corpus": 0.5618,
+   "corpus_id_chance_level": 0.5619,
+   "corpus_id_classes": [
+    "communityforensics_small_real",
+    "communityforensics_small_synthetic",
+    "flickr30k_flat",
+    "flickr30k_real"
+   ]
+  },
+  "all_metadata_no_pixels": {
+   "auc_randomforest_in_distribution": 1.0,
+   "auc_logreg_in_distribution": 1.0,
+   "top_importances": [
+    {
+     "feature": "is_jpeg",
+     "importance": 0.1844
+    },
+    {
+     "feature": "is_png",
+     "importance": 0.1768
+    },
+    {
+     "feature": "px",
+     "importance": 0.1583
+    },
+    {
+     "feature": "w",
+     "importance": 0.1562
+    },
+    {
+     "feature": "h",
+     "importance": 0.1537
+    }
+   ],
+   "accuracy_identifying_which_corpus": 0.675,
+   "corpus_id_chance_level": 0.5619,
+   "corpus_id_classes": [
+    "communityforensics_small_real",
+    "communityforensics_small_synthetic",
+    "flickr30k_flat",
+    "flickr30k_real"
+   ]
+  }
+ },
+ "interpretation": {
+  "strongest_shortcut_feature_set": "dimensions_only",
+  "strongest_metadata_only_auc": 1.0,
+  "verdict": "SHORTCUT PRESENT: real vs synthetic is predictable from file metadata alone, so a detector could score well without learning synthetic-image forensics."
+ }
+}

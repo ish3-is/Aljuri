@@ -1,0 +1,17 @@
+# BASIRAH — .gitattributes
+# Model weights for LFS. Only runtime-required models go here.
+# Research-only / deprecated checkpoints are EXCLUDED (not LFS).
+
+# Runtime-required URL model (active production bundle)
+backend/models/basirah-url-v3.joblib filter=lfs
+
+# Runtime-required shadow detector (Detector B CLIP probe)
+backend/models/detector_b_clip_probe.joblib filter=lfs
+
+# Runtime-required image model (research, served by model_loader.py)
+backend/models/multifamily_candidates/efficientnet_b0__C_holdout_Midjourney.pt filter=lfs
+
+# Metadata / schemas — small, keep in git
+backend/models/ACTIVE_MODEL.json
+backend/models/RESEARCH_IMAGE_MODEL.json
+backend/models/feature_schema.json

@@ -1,0 +1,66 @@
+{
+ "corpus": "aigcdetection_benchmark_ProGAN",
+ "source": "aigcdetection_benchmark",
+ "generator_group": "ProGAN",
+ "n_images_declared": 139,
+ "n_images_verified_decoding": 139,
+ "n_undecodable_or_missing": 0,
+ "undecodable_examples": [],
+ "undecodable_reasons": {},
+ "width": {
+  "min": 256.0,
+  "p25": 256.0,
+  "median": 256.0,
+  "p75": 256.0,
+  "max": 256.0,
+  "mean": 256.0
+ },
+ "height": {
+  "min": 256.0,
+  "p25": 256.0,
+  "median": 256.0,
+  "p75": 256.0,
+  "max": 256.0,
+  "mean": 256.0
+ },
+ "pixels": {
+  "min": 65536.0,
+  "p25": 65536.0,
+  "median": 65536.0,
+  "p75": 65536.0,
+  "max": 65536.0,
+  "mean": 65536.0
+ },
+ "orientation": {
+  "square": 139
+ },
+ "format": {
+  "PNG": 139
+ },
+ "mode": {
+  "RGB": 139
+ },
+ "file_bytes": {
+  "min": 33798.0,
+  "p25": 72268.5,
+  "median": 86384.0,
+  "p75": 97559.5,
+  "max": 137826.0,
+  "mean": 85414.1726618705
+ },
+ "megapixels_hist": {
+  "0-0": 0,
+  "0-1": 0,
+  "1-99": 0
+ },
+ "top_resolutions": {
+  "256x256": 139
+ },
+ "resolution_hist": {
+  "256x256": 139
+ },
+ "exif_present": 0,
+ "exif_present_pct": 0.0,
+ "camera_makes": {},
+ "camera_models": {}
+}

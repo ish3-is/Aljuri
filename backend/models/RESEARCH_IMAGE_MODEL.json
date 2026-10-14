@@ -1,0 +1,17 @@
+{
+  "checkpoint": "multifamily_candidates/efficientnet_b0__C_holdout_Midjourney.pt",
+  "status": "research_grade",
+  "advisory_only": true,
+  "fit_for_automated_enforcement": false,
+  "architecture": "efficientnet_b0",
+  "model_version": "0.9.0-research",
+  "selected": "2026-10-04",
+  "rationale": "Trained on GAN + PixelDiffusion + LatDiff and evaluated against Midjourney, an entirely unseen generator family: ROC-AUC 0.9832, balanced accuracy 0.9311, FPR 0.1109, FNR 0.0269.",
+  "not_used": {
+    "checkpoint": "basirah-image-cand-efficientnet_b0.pt",
+    "within_family_auc": 0.9984,
+    "why_not": "That 0.9984 was a WITHIN-family result on a corpus that is 99.3% LatDiff. The same model scored 0.3954 ROC-AUC (below chance) on external cross-family transfer and classified 89.7% of genuine photographs as synthetic. Serving it would misrepresent the detector by roughly 0.6 AUC."
+  },
+  "this_is_not_a_production_declaration": "RESEARCH_IMAGE_MODEL.json is deliberately named differently from the URL stack's ACTIVE_MODEL.json. There is no production image model. Promotion is blocked on worst-family generalization (GAN balanced accuracy 0.5512, near chance).",
+  "url_stack_note": "This file governs IMAGES ONLY. models/ACTIVE_MODEL.json continues to serve basirah-url-v3 and is unaffected."
+}

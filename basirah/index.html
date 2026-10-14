@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#070A0F" />
+    <meta
+      name="description"
+      content="BASIRAH — Digital Trust Intelligence. Drop anything suspicious: BASIRAH investigates URLs, images and screenshots as a single signal."
+    />
+    <meta property="og:title" content="BASIRAH — Digital Trust Intelligence" />
+    <meta
+      property="og:description"
+      content="ذكاء الثقة الرقمية — Look beyond what appears."
+    />
+    <meta property="og:type" content="website" />
+
+    <!--
+      Fonts are preconnected and loaded with display=swap so text is
+      readable immediately. Manrope carries the Latin interface; Noto
+      Naskh Arabic is the product voice in Arabic and takes over the
+      whole root when lang="ar".
+    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>BASIRAH | بصيرة — Digital Trust Intelligence</title>
+
+    <!--
+      Theme bootstrap.
+
+      Runs synchronously BEFORE first paint so the correct theme is
+      already on <html> when the CSS resolves its tokens. Without
+      this, a reader with a light OS preference would see a full dark
+      frame before React mounted — the classic flash of wrong theme,
+      which is worse on this product because the ambient background
+      and glow are prominent.
+
+      Kept inline and dependency-free on purpose: importing the hook
+      here would pull the whole app module graph into a blocking
+      script. The storage key must stay in sync with
+      `src/hooks/useTheme.ts`.
+    -->
+    <script>
+      ;(function () {
+        try {
+          var stored = window.localStorage.getItem('basirah.theme')
+          var preference =
+            stored === 'light' || stored === 'dark' ? stored : 'system'
+          var resolved =
+            preference === 'system'
+              ? window.matchMedia('(prefers-color-scheme: dark)').matches
+                ? 'dark'
+                : 'light'
+              : preference
+          document.documentElement.dataset.theme = resolved
+        } catch (error) {
+          // Storage denied: fall back to the system preference.
+          document.documentElement.dataset.theme = window.matchMedia(
+            '(prefers-color-scheme: dark)',
+          ).matches
+            ? 'dark'
+            : 'light'
+        }
+      })()
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

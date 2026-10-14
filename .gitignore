@@ -1,0 +1,65 @@
+# ============================================================================
+# BASIRAH — .gitignore
+# ============================================================================
+# Node
+node_modules/
+dist/
+.vite/
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+logs/
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# QA / local artifacts
+artifacts/
+screenshots/
+coverage/
+htmlcov/
+stage3-final.log
+stage3-qa.log
+stage3-responsive.log
+
+# Temporary
+tmp/
+temp/
+*.tmp
+*.bak
+
+# Models / datasets where not intended
+datasets/image/raw/
+datasets/raw/
+datasets/processed/
+
+# Test artifacts
+test_minimal.png
+nul
+
+# Generated evaluation artifacts (keep the pipeline code, not the outputs)
+evaluation/
+results/
+challenge/
+
+# Research dataset image corpora (gitignored — do not commit)
+backend/datasets/image/normalized/
+backend/datasets/image/square/
+backend/datasets/image/crossfamily/

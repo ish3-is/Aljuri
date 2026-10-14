@@ -1,0 +1,343 @@
+{
+  "feature_extractor_version": "2.1.0",
+  "feature_count": 41,
+  "features": [
+    {
+      "name": "url_length",
+      "position": 0,
+      "data_type": "float64",
+      "group": "length",
+      "description": "Total characters in the normalised URL"
+    },
+    {
+      "name": "hostname_length",
+      "position": 1,
+      "data_type": "float64",
+      "group": "length",
+      "description": "Characters in the hostname"
+    },
+    {
+      "name": "path_length",
+      "position": 2,
+      "data_type": "float64",
+      "group": "length",
+      "description": "Characters in the path component"
+    },
+    {
+      "name": "query_length",
+      "position": 3,
+      "data_type": "float64",
+      "group": "length",
+      "description": "Characters in the query string"
+    },
+    {
+      "name": "registered_domain_length",
+      "position": 4,
+      "data_type": "float64",
+      "group": "length",
+      "description": "Characters in the registrable domain"
+    },
+    {
+      "name": "dot_count",
+      "position": 5,
+      "data_type": "float64",
+      "group": "character",
+      "description": "Dots in the full URL"
+    },
+    {
+      "name": "hyphen_count",
+      "position": 6,
+      "data_type": "float64",
+      "group": "character",
+      "description": "Hyphens in the full URL"
+    },
+    {
+      "name": "underscore_count",
+      "position": 7,
+      "data_type": "float64",
+      "group": "character",
+      "description": "Underscores in the full URL"
+    },
+    {
+      "name": "slash_count",
+      "position": 8,
+      "data_type": "float64",
+      "group": "character",
+      "description": "Slashes in the full URL"
+    },
+    {
+      "name": "digit_count",
+      "position": 9,
+      "data_type": "float64",
+      "group": "character",
+      "description": "Digits in the full URL"
+    },
+    {
+      "name": "special_char_count",
+      "position": 10,
+      "data_type": "float64",
+      "group": "character",
+      "description": "Non-alphanumeric, non-delimiter characters"
+    },
+    {
+      "name": "query_param_count",
+      "position": 11,
+      "data_type": "float64",
+      "group": "structure",
+      "description": "Number of query parameters"
+    },
+    {
+      "name": "encoded_char_count",
+      "position": 12,
+      "data_type": "float64",
+      "group": "obfuscation",
+      "description": "Percent-encoded characters"
+    },
+    {
+      "name": "double_slash_count",
+      "position": 13,
+      "data_type": "float64",
+      "group": "obfuscation",
+      "description": "'//' occurrences inside the path"
+    },
+    {
+      "name": "digit_ratio",
+      "position": 14,
+      "data_type": "float64",
+      "group": "composition",
+      "description": "Digits divided by URL length"
+    },
+    {
+      "name": "letter_ratio",
+      "position": 15,
+      "data_type": "float64",
+      "group": "composition",
+      "description": "Letters divided by URL length"
+    },
+    {
+      "name": "special_char_ratio",
+      "position": 16,
+      "data_type": "float64",
+      "group": "composition",
+      "description": "Special characters divided by URL length"
+    },
+    {
+      "name": "encoded_ratio",
+      "position": 17,
+      "data_type": "float64",
+      "group": "obfuscation",
+      "description": "Encoded characters divided by URL length"
+    },
+    {
+      "name": "subdomain_depth",
+      "position": 18,
+      "data_type": "float64",
+      "group": "structure",
+      "description": "Labels before the registrable domain"
+    },
+    {
+      "name": "uses_https",
+      "position": 19,
+      "data_type": "float64",
+      "group": "scheme",
+      "description": "1 when the scheme is https"
+    },
+    {
+      "name": "uses_http",
+      "position": 20,
+      "data_type": "float64",
+      "group": "scheme",
+      "description": "1 when the scheme is http"
+    },
+    {
+      "name": "is_ip_host",
+      "position": 21,
+      "data_type": "float64",
+      "group": "identity",
+      "description": "1 when the host is a raw IP literal"
+    },
+    {
+      "name": "has_at_symbol",
+      "position": 22,
+      "data_type": "float64",
+      "group": "identity",
+      "description": "1 when credentials precede the host"
+    },
+    {
+      "name": "is_punycode",
+      "position": 23,
+      "data_type": "float64",
+      "group": "identity",
+      "description": "1 when the hostname uses xn-- encoding"
+    },
+    {
+      "name": "has_port",
+      "position": 24,
+      "data_type": "float64",
+      "group": "structure",
+      "description": "1 when an explicit port is present"
+    },
+    {
+      "name": "url_entropy",
+      "position": 25,
+      "data_type": "float64",
+      "group": "entropy",
+      "description": "Shannon entropy of the whole URL"
+    },
+    {
+      "name": "hostname_entropy",
+      "position": 26,
+      "data_type": "float64",
+      "group": "entropy",
+      "description": "Alphanumeric-only entropy of the hostname"
+    },
+    {
+      "name": "path_entropy",
+      "position": 27,
+      "data_type": "float64",
+      "group": "entropy",
+      "description": "Shannon entropy of the path"
+    },
+    {
+      "name": "registered_domain_entropy",
+      "position": 28,
+      "data_type": "float64",
+      "group": "entropy",
+      "description": "Shannon entropy of the registrable domain"
+    },
+    {
+      "name": "suspicious_keyword_count",
+      "position": 29,
+      "data_type": "float64",
+      "group": "lexical",
+      "description": "Distinct credential-themed terms present"
+    },
+    {
+      "name": "brand_token_count",
+      "position": 30,
+      "data_type": "float64",
+      "group": "lexical",
+      "description": "Brand-like tokens present in the hostname"
+    },
+    {
+      "name": "suspicious_tld",
+      "position": 31,
+      "data_type": "float64",
+      "group": "lexical",
+      "description": "1 when the suffix is frequently abused"
+    },
+    {
+      "name": "is_long_url",
+      "position": 32,
+      "data_type": "float64",
+      "group": "derived_flag",
+      "description": "1 when url_length >= 75"
+    },
+    {
+      "name": "is_long_hostname",
+      "position": 33,
+      "data_type": "float64",
+      "group": "derived_flag",
+      "description": "1 when hostname_length >= 40"
+    },
+    {
+      "name": "is_long_path",
+      "position": 34,
+      "data_type": "float64",
+      "group": "derived_flag",
+      "description": "1 when path_length >= 45"
+    },
+    {
+      "name": "is_excessive_subdomain",
+      "position": 35,
+      "data_type": "float64",
+      "group": "derived_flag",
+      "description": "1 when subdomain_depth >= 3"
+    },
+    {
+      "name": "is_excessive_hyphen",
+      "position": 36,
+      "data_type": "float64",
+      "group": "derived_flag",
+      "description": "1 when hyphen_count >= 3"
+    },
+    {
+      "name": "is_high_entropy_hostname",
+      "position": 37,
+      "data_type": "float64",
+      "group": "derived_flag",
+      "description": "1 when hostname entropy >= 3.60"
+    },
+    {
+      "name": "is_high_digit_ratio",
+      "position": 38,
+      "data_type": "float64",
+      "group": "derived_flag",
+      "description": "1 when digit_ratio >= 0.30"
+    },
+    {
+      "name": "is_suspicious_keyword_combo",
+      "position": 39,
+      "data_type": "float64",
+      "group": "derived_flag",
+      "description": "1 when 2+ suspicious keywords appear"
+    },
+    {
+      "name": "is_abnormal_port",
+      "position": 40,
+      "data_type": "float64",
+      "group": "structure",
+      "description": "1 when the port is outside 80/443/8080/8443"
+    }
+  ],
+  "fingerprint": "39c7969c24382c25",
+  "model_input": {
+    "feature_count": 39,
+    "features": [
+      "url_length",
+      "hostname_length",
+      "path_length",
+      "query_length",
+      "registered_domain_length",
+      "dot_count",
+      "hyphen_count",
+      "underscore_count",
+      "slash_count",
+      "digit_count",
+      "special_char_count",
+      "query_param_count",
+      "encoded_char_count",
+      "double_slash_count",
+      "digit_ratio",
+      "letter_ratio",
+      "special_char_ratio",
+      "encoded_ratio",
+      "subdomain_depth",
+      "is_ip_host",
+      "has_at_symbol",
+      "is_punycode",
+      "has_port",
+      "url_entropy",
+      "hostname_entropy",
+      "path_entropy",
+      "registered_domain_entropy",
+      "suspicious_keyword_count",
+      "brand_token_count",
+      "suspicious_tld",
+      "is_long_url",
+      "is_long_hostname",
+      "is_long_path",
+      "is_excessive_subdomain",
+      "is_excessive_hyphen",
+      "is_high_entropy_hostname",
+      "is_high_digit_ratio",
+      "is_suspicious_keyword_combo",
+      "is_abnormal_port"
+    ],
+    "excluded_features": [
+      "uses_http",
+      "uses_https"
+    ],
+    "exclusion_rationale": "uses_https/uses_http have an INVERTED class association between PhiUSIIL and MUD-2026 (lift +2.06 vs -0.89), so they measure crawl methodology rather than phishing. They remain visible in the product explanation but are not model inputs."
+  }
+}

@@ -1,0 +1,52 @@
+# Virtual environment
+.venv/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Logs
+*.log
+logs/
+
+# Local env
+.env
+.env.local
+
+# Datasets
+# Real datasets are licensed data and are not redistributed here.
+datasets/raw/
+datasets/processed/
+datasets/image/raw/
+datasets/image/manifests/_tree_*.json
+datasets/image/manifests/_cf_shard_index.json
+# Dev fixture (allowed)
+datasets/dev_fixture_urls.csv
+
+# Caches / temp
+**/*.npy
+**/*.npz
+**/cache*.npz
+*_cache.npz
+**/*.cache
+
+# Evaluation artifacts (keep the pipeline code, not the outputs)
+evaluation/artifacts/
+evaluation/results/
+evaluation/image_deployment_v1/artifacts/
+
+# Result files (concise summaries kept in git; large intermediates excluded)
+results/*.csv
+results/**/*.log
+results/**/*cache*.npz
+results/*.log
+results/*cache*.npz
+*_cache.npz
+
+# Large model weights: use .gitattributes for LFS, never globally ignored.
+# .pt/.joblib are NOT globally ignored until runtime-required models are classified.
+# models/*.joblib is intentionally NOT here — models are listed for LFS in .gitattributes.

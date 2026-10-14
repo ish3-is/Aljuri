@@ -1,0 +1,197 @@
+/* ============================================================
+   BASIRAH — PRINT STYLESHEET
+
+   The goal is a report that survives on paper: white background,
+   black text, no navigation, no interactive controls, and page
+   breaks that fall between sections rather than through them.
+
+   Two rules do most of the work:
+
+     1. Everything outside `.basirah-report` is hidden. The report is
+        the only thing that prints, so the app shell, the ticker, the
+        ambient background and the section nav never appear. This is
+        why the Reports Center renders its document at print time
+        rather than trying to print whatever route is open.
+     2. All colour is forced to black-on-white inside the report. The
+        dark theme's cyan and violet would print as muddy grey on a
+        non-colour printer, and more importantly a state colour must
+        never be the ONLY carrier of meaning — every state in the
+        report also carries its label, so colour here is decorative.
+   ============================================================ */
+
+@page {
+  /* A4 with a printable margin. The 14mm top/bottom and 12mm sides
+     sit inside the unprintable area of most consumer printers. */
+  size: A4;
+  margin: 14mm 12mm;
+}
+
+@media print {
+  /* --- kill everything that is not the report --- */
+  body * {
+    visibility: hidden;
+  }
+
+  .basirah-report,
+  .basirah-report * {
+    visibility: visible;
+  }
+
+  .basirah-report {
+    position: absolute;
+    inset-inline-start: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* --- paper --- */
+  html,
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-size: 10.5pt;
+    line-height: 1.5;
+  }
+
+  /* The ambient background is a fixed, full-viewport decoration. In
+     print it would repaint the whole page black behind the report. */
+  [data-ambient],
+  .basirah-ambient {
+    display: none !important;
+  }
+
+  /* --- typography --- */
+  .basirah-report h1,
+  .basirah-report h2,
+  .basirah-report h3 {
+    color: #000000 !important;
+    /* Gradient text prints as a grey smear, so it is replaced with
+       real black ink. */
+    background: none !important;
+    -webkit-background-clip: unset !important;
+    background-clip: unset !important;
+    color: #000000 !important;
+    font-weight: 700 !important;
+    /* Arabic display weight survives; the face is embedded, so this
+       does not trigger a synthetic-bold. */
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+
+  .basirah-report p,
+  .basirah-report li,
+  .basirah-report td,
+  .basirah-report th {
+    color: #000000 !important;
+  }
+
+  /* Secondary copy stays legible as grey rather than vanishing. */
+  .basirah-report .text-text-dim,
+  .basirah-report .text-text-muted,
+  .basirah-report [data-print-role='secondary'] {
+    color: #3a3a3a !important;
+  }
+
+  /* --- links and long strings ---
+     A URL printed as a bare paragraph runs off the page edge. The
+     ltr-embed utility isolates direction in screen; on paper it also
+     needs to be allowed to break anywhere. */
+  .basirah-report .ltr-embed,
+  .basirah-report [data-print-role='url'] {
+    direction: ltr;
+    unicode-bidi: isolate;
+    word-break: break-all;
+    overflow-wrap: anywhere;
+  }
+
+  a[href]::after {
+    content: '';
+  }
+
+  /* --- surfaces --- */
+  .basirah-report .panel-glass,
+  .basirah-report [data-print-surface] {
+    background: #ffffff !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border: 1px solid #b9b9b9 !important;
+    box-shadow: none !important;
+    break-inside: avoid;
+  }
+
+  /* --- page breaks ---
+     Sections avoid being split; the disclaimer and stamp are never
+     orphaned from the report body. */
+  .basirah-report [data-print-block] {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .basirah-report [data-print-block='page'] {
+    break-before: page;
+    page-break-before: always;
+  }
+
+  /* --- interactive controls never print --- */
+  .basirah-report button,
+  .basirah-report [role='button'],
+  .basirah-report .basirah-print-hide {
+    display: none !important;
+  }
+
+  /* --- Evidence Graph fallback ---
+     The interactive SVG graph cannot be read on paper: it has no
+     text flow, no accessible reading order, and its node labels are
+     positioned by coordinates. The graph therefore renders a
+     textual evidence list that is hidden on screen and shown in
+     print, while the SVG itself is hidden in print. The finding is
+     still fully reported — just as prose. */
+  .basirah-report .basirah-graph-visual {
+    display: none !important;
+  }
+
+  .basirah-report .basirah-graph-text {
+    display: block !important;
+  }
+
+  /* --- repeated running header --- */
+  thead {
+    display: table-header-group;
+  }
+
+  tfoot {
+    display: table-footer-group;
+  }
+
+  tr,
+  .basirah-report li {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  img,
+  svg {
+    max-width: 100% !important;
+  }
+
+  /* --- motion is meaningless on paper --- */
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* The textual evidence fallback is print-only. */
+.basirah-graph-text {
+  display: none;
+}
+
+@media print {
+  .basirah-graph-text {
+    display: block;
+  }
+}

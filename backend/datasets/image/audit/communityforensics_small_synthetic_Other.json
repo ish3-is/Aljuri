@@ -1,0 +1,70 @@
+{
+ "corpus": "communityforensics_small_synthetic_Other",
+ "source": "communityforensics_small",
+ "class": "synthetic",
+ "generator_family": "Other",
+ "label": 1,
+ "n_images_declared": 4,
+ "n_images_verified_decoding": 4,
+ "n_undecodable_or_missing": 0,
+ "undecodable_examples": [],
+ "width": {
+  "min": 256,
+  "p25": 256,
+  "median": 256,
+  "p75": 256,
+  "max": 256,
+  "mean": 256.0
+ },
+ "height": {
+  "min": 256,
+  "p25": 256,
+  "median": 256,
+  "p75": 256,
+  "max": 256,
+  "mean": 256.0
+ },
+ "pixels": {
+  "min": 65536,
+  "p25": 65536,
+  "median": 65536,
+  "p75": 65536,
+  "max": 65536,
+  "mean": 65536.0
+ },
+ "orientation": {
+  "landscape": 0,
+  "portrait": 0,
+  "square": 4
+ },
+ "format": {
+  "PNG": 4
+ },
+ "mode": {
+  "RGB": 4
+ },
+ "file_bytes": {
+  "min": 98338,
+  "p25": 147215,
+  "median": 154532,
+  "p75": 160512,
+  "max": 160512,
+  "mean": 140149.2
+ },
+ "megapixels_hist": {
+  "<0.1MP": 4
+ },
+ "top_resolutions": {
+  "256x256": 4
+ },
+ "resolution_hist": {
+  "256x256": 4
+ },
+ "exif_present": 0,
+ "exif_present_pct": 0.0,
+ "camera_makes": {},
+ "camera_models": {},
+ "jpeg_quality_estimate_mean": null,
+ "jpeg_quality_estimate_distribution": null,
+ "jpeg_quality_estimate_note": "size-ratio estimate on a <=400-image subsample; not the true quantisation table"
+}

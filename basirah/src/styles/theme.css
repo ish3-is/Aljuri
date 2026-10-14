@@ -1,0 +1,217 @@
+/* ============================================================
+   BASIRAH — SEMANTIC TOKEN LAYER
+
+   This is the single place a colour is decided. Components never
+   branch on the active theme: they reference the semantic token
+   (`bg-surface`, `text-signal`, `border-line`) and the token layer
+   resolves it for the current theme.
+
+   Two layers of variables, deliberately separate:
+
+     --bas-*   SEMANTIC. Stable names the components consume.
+               Light and dark both define every one of these, so a
+               token can never be undefined in one theme.
+     --color-* TAILWIND BRIDGE. `@theme` cannot read a media query or
+               a [data-theme] selector at build time, so these point at
+               the semantic variables instead of holding literals.
+               `bg-surface` therefore resolves to `var(--color-surface)`
+               → `var(--bas-surface)` → whichever theme is live.
+
+   The consequence: switching the theme re-resolves every utility class
+   already in the tree. No component is rewritten, and no conditional
+   class strings (`dark:`) exist anywhere in the codebase.
+   ============================================================ */
+
+:root {
+  /* --- semantic: surfaces --- */
+  --bas-bg: #070a0f;
+  --bas-surface: #0d1119;
+  --bas-surface-elevated: #121826;
+  --bas-surface-inset: #090d14;
+
+  /* --- semantic: text --- */
+  --bas-text-primary: #e6edf6;
+  --bas-text-secondary: #8c9bb0;
+  --bas-text-dim: #5a6879;
+
+  /* --- semantic: structure --- */
+  --bas-border: #1b2432;
+  --bas-border-soft: #151c28;
+  --bas-border-bright: #26344a;
+
+  /* --- semantic: accents --- */
+  --bas-accent-cyan: #6ee7f9;
+  --bas-accent-cyan-dim: #2b7f8e;
+  --bas-accent-violet: #8b5cf6;
+  --bas-accent-violet-dim: #4c2f8f;
+
+  /* --- semantic: states --- */
+  --bas-trusted: #3ddc97;
+  --bas-caution: #f6c85f;
+  --bas-danger: #ff5d73;
+
+  /* --- semantic: depth --- */
+  /* Dark mode needs an outer shadow to separate a panel from the
+     background at all; light mode needs almost none because the
+     surfaces already differ in luminance. This is why --bas-shadow
+     exists instead of a Tailwind shadow utility. */
+  --bas-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --bas-shadow-md: 0 8px 24px -8px rgba(0, 0, 0, 0.6);
+  --bas-shadow-lg: 0 24px 60px -20px rgba(0, 0, 0, 0.75);
+
+  /* --- semantic: ambience --- */
+  --bas-grid: #151c28;
+  --bas-grid-opacity: 0.28;
+  /* Glow intensity. Dark can carry a strong halo because the
+     background is near-black; light mode needs roughly a third of it
+     or the accents stop reading as colour and start reading as
+     fluorescent paint. */
+  --bas-glow-cyan: rgba(110, 231, 249, 0.075);
+  --bas-glow-violet: rgba(139, 92, 246, 0.07);
+  --bas-glow-strength: 1;
+  --bas-vignette: rgba(5, 7, 11, 0.55);
+  --bas-vignette-opacity: 1;
+  --bas-wash-top: #101a2b;
+  --bas-noise-blend: overlay;
+  --bas-noise-opacity: 0.16;
+
+  color-scheme: dark;
+}
+
+/* ------------------------------------------------------------
+   LIGHT THEME
+
+   Designed, not inverted. A cool near-white canvas, white and
+   blue-gray surfaces, dark navy text, and borders that carry the
+   structure so panels stay legible without relying on shadow.
+
+   Accents are darkened rather than kept at their dark-mode value:
+   #6EE7F9 on white has a contrast ratio around 1.6:1 and would be
+   invisible as text. The cyan becomes a deep teal and the violet a
+   deep indigo, both of which clear WCAG AA against the light canvas.
+   The hue is preserved, so the identity survives the switch.
+   ------------------------------------------------------------ */
+
+[data-theme='light'] {
+  /* ---- Soft light mode -------------------------------------------
+     The first light palette used #ffffff for cards and a white top
+     wash, which flooded the page with glare and made long reading
+     tiring. This ramp is deliberately cooler and lower-contrast than
+     paper white while keeping every text/background pair above WCAG
+     AA. Contrast ratios were measured against BOTH the canvas and the
+     card surface, not just one of them:
+
+       text-primary   14.38 / 15.34
+       text-secondary  5.52 /  5.89
+       text-dim        4.81 /  5.13   (the earlier #6d7b91 was 3.81)
+       accent-cyan     5.30 /  5.63
+       accent-violet   5.93 /  6.33
+       trusted         4.69 /  5.00
+       caution         4.66 /  4.98   (the suggested #B78221 was 3.00)
+       danger          4.79 /  5.11
+  ------------------------------------------------------------------ */
+  --bas-bg: #eef2f5;
+  --bas-surface: #f7f9fb;
+  --bas-surface-elevated: #fbfcfd;
+  --bas-surface-inset: #e8edf2;
+
+  --bas-text-primary: #18212f;
+  --bas-text-secondary: #556273;
+  --bas-text-dim: #5f6b7c;
+
+  --bas-border: #d7dee7;
+  --bas-border-soft: #e0e6ec;
+  --bas-border-bright: #bfcbd9;
+
+  /* Muted relative to the dark-mode brand hues: same identity, less
+     luminosity, so they read as ink rather than neon on a pale field.
+     #0d7186 is used in BOTH directions — as ink on the canvas (5.01)
+     and as a filled pill behind --bas-void text (5.01) — so the
+     language toggle clears AA at its small 12px label size. The
+     previous #0f7c92 managed only 4.32 behind that pill. */
+  --bas-accent-cyan: #0d7186;
+  --bas-accent-cyan-dim: #4f9aab;
+  --bas-accent-violet: #6a48ad;
+  --bas-accent-violet-dim: #9d86d6;
+
+  --bas-trusted: #1e7a57;
+  --bas-caution: #8f6412;
+  --bas-danger: #b93f52;
+
+  /* Very soft elevation. The previous 0.14 alpha read as a dark
+     outline on a pale canvas. */
+  --bas-shadow-sm: 0 1px 2px rgba(30, 45, 65, 0.05);
+  --bas-shadow-md: 0 8px 30px -12px rgba(30, 45, 65, 0.09);
+  --bas-shadow-lg: 0 24px 56px -28px rgba(30, 45, 65, 0.14);
+
+  /* The grid should be felt rather than seen. */
+  --bas-grid: #284664;
+  --bas-grid-opacity: 0.035;
+  --bas-glow-cyan: rgba(15, 124, 146, 0.05);
+  --bas-glow-violet: rgba(106, 72, 173, 0.045);
+  --bas-glow-strength: 0.22;
+  --bas-vignette: rgba(120, 150, 185, 0.22);
+  --bas-vignette-opacity: 0.35;
+  /* A faint cool tint instead of the previous pure white, which was
+     the single largest source of glare at the top of the page. */
+  --bas-wash-top: #f4f7fa;
+  /* `overlay` blending darkens a light canvas, so light mode uses
+     `multiply` for the noise instead. Same layer, different ink. */
+  --bas-noise-blend: multiply;
+  --bas-noise-opacity: 0.035;
+
+  color-scheme: light;
+}
+
+/* ============================================================
+   TAILWIND BRIDGE
+   ============================================================ */
+
+@theme inline {
+  --color-void: var(--bas-bg);
+  --color-abyss: var(--bas-bg);
+  --color-surface: var(--bas-surface);
+  --color-surface-raised: var(--bas-surface-elevated);
+  --color-surface-inset: var(--bas-surface-inset);
+
+  --color-line: var(--bas-border);
+  --color-line-soft: var(--bas-border-soft);
+  --color-line-bright: var(--bas-border-bright);
+  /* Alias used by one component; kept so it resolves instead of
+     silently producing no colour. */
+  --color-border: var(--bas-border);
+
+  --color-signal: var(--bas-accent-cyan);
+  --color-signal-dim: var(--bas-accent-cyan-dim);
+  --color-intel: var(--bas-accent-violet);
+  --color-intel-dim: var(--bas-accent-violet-dim);
+
+  --color-trusted: var(--bas-trusted);
+  --color-caution: var(--bas-caution);
+  --color-danger: var(--bas-danger);
+
+  --color-text: var(--bas-text-primary);
+  --color-text-muted: var(--bas-text-secondary);
+  --color-text-dim: var(--bas-text-dim);
+
+  /* --- typefaces --- */
+  --font-latin: 'Manrope', ui-sans-serif, system-ui, 'Segoe UI', sans-serif;
+  /* Arabic has THREE faces, assigned by role rather than globally.
+     `font-arabic` is the readable body face (Regular) — long
+     paragraphs stay on it. `font-arabic-display` is the identity face
+     (ExtraBold) for headings and the hero title. `font-arabic-emph`
+     is the middle weight (Medium) for nav labels and buttons. Applying
+     one weight everywhere would either smear paragraphs or undersell
+     the brand. */
+  --font-arabic: 'The Year of the Camel', 'Noto Naskh Arabic', 'Traditional Arabic',
+    'Amiri', 'Segoe UI', sans-serif;
+  --font-arabic-display: 'The Year of the Camel', 'Noto Naskh Arabic', 'Segoe UI',
+    sans-serif;
+  --font-arabic-emph: 'The Year of the Camel', 'Noto Naskh Arabic', 'Segoe UI',
+    sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* --- motion --- */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quint: cubic-bezier(0.83, 0, 0.17, 1);
+}

@@ -1,0 +1,261 @@
+{
+ "source": "TheKernel01/AIGC-Detection-Benchmark",
+ "evaluation_date": "2026-10-04",
+ "n_images": 5199,
+ "decoding_verification": {
+  "all_images_fully_decoded": true,
+  "n_decode_failures": 0,
+  "n_missing_on_disk": 0,
+  "method": "PIL Image.open(...).load() full decode on every extracted file during extraction, then a second independent re-open + full decode pass over all 5199 files on disk during audit (audit file per generator group reports n_images_verified_decoding == n_images_declared)."
+ },
+ "class_counts": {
+  "synthetic": 4299,
+  "real": 900
+ },
+ "generator_counts": {
+  "ADM": 260,
+  "BigGAN": 260,
+  "CycleGAN": 260,
+  "DALLE2": 260,
+  "GLIDE": 260,
+  "GauGAN": 260,
+  "Midjourney": 260,
+  "ProGAN": 139,
+  "Real": 900,
+  "SD14": 260,
+  "SD15": 260,
+  "SDXL": 260,
+  "StarGAN": 260,
+  "StyleGAN": 260,
+  "StyleGAN2": 260,
+  "VQDM": 260,
+  "WhichFaceIsReal": 260,
+  "Wukong": 260
+ },
+ "generator_family_counts": {
+  "PixelDiffusion": 780,
+  "GAN": 1959,
+  "LatDiff": 1300,
+  "Unknown_Architecture": 260,
+  "real": 900
+ },
+ "generator_family_to_generator": {
+  "PixelDiffusion": {
+   "ADM": 260,
+   "GLIDE": 260,
+   "VQDM": 260
+  },
+  "GAN": {
+   "BigGAN": 260,
+   "CycleGAN": 260,
+   "GauGAN": 260,
+   "ProGAN": 139,
+   "StarGAN": 260,
+   "StyleGAN": 260,
+   "StyleGAN2": 260,
+   "WhichFaceIsReal": 260
+  },
+  "LatDiff": {
+   "DALLE2": 260,
+   "SD14": 260,
+   "SD15": 260,
+   "SDXL": 260,
+   "Wukong": 260
+  },
+  "Unknown_Architecture": {
+   "Midjourney": 260
+  },
+  "real": {
+   "Real": 900
+  }
+ },
+ "documented_vs_unknown_generators": {
+  "documented_by_source_column": 4299,
+  "unknown": 0,
+  "architecture_family_unknown": {
+   "Midjourney": 260
+  },
+  "note": "Generator MODEL is documented for every synthetic image. For Midjourney the ARCHITECTURE is not documented by anyone and is recorded as Unknown_Architecture - Midjourney's architecture has never been publicly disclosed. That is an honest unknown, not a fabricated label."
+ },
+ "duplicate_overlap_existing_corpus": {
+  "compared_against": [
+   "datasets/image/raw/communityforensics_small",
+   "datasets/image/raw/flickr30k"
+  ],
+  "n_existing_files_compared": 12807,
+  "exact_sha256_matches": 0,
+  "perceptual_dhash64_matches": 1,
+  "perceptual_examples": [
+   "D:/MDR/Aljuri-Greadute-Project/backend/datasets/image/raw/aigcdetection_benchmark\\real\\real\\000573_Real.jpg"
+  ],
+  "internal_exact_duplicates": 1,
+  "internal_perceptual_duplicates_dhash": 2,
+  "method": "exact = SHA256 of file bytes; perceptual = 64-bit dHash (8x8 DCT-free horizontal comparison) over all 12807 existing corpus images + all new images.",
+  "interpretation": "Essentially ZERO overlap with the existing corpus. The single perceptual match is a dHash collision on a low-texture ImageNet photo, not a shared image.",
+  "internal_exact_duplicate_pair": [
+   "datasets/image/raw/aigcdetection_benchmark/synthetic/GAN/000013_CycleGAN.png",
+   "datasets/image/raw/aigcdetection_benchmark/synthetic/GAN/000028_CycleGAN.png"
+  ],
+  "n_unique_files": 5198
+ },
+ "CLASS_X_SOURCE_CONTINGENCY": {
+  "within_new_source": {
+   "real": {
+    "ILSVRC2012_ImageNet_validation": 402,
+    "UNDOCUMENTED_real_corpus": 498
+   },
+   "synthetic": {
+    "UNDOCUMENTED_real_corpus": 4299,
+    "note": "synthetic images have no 'real_source'; this row records that generator identity is documented for all 4299 while their real counterparts' corpora are not."
+   },
+   "verdict": "NOT source-confounded. Real images come from MULTIPLE distinct real corpora (at least ImageNet-val plus 498 from other, unnamed real pools such as LSUN/CelebA/ADE20K-style corpora), not from one source. And every synthetic image has a documented generator."
+  },
+  "across_whole_corpus": {
+   "real": {
+    "flickr30k": 2999,
+    "communityforensics_small": 400,
+    "aigcdetection_benchmark": 900
+   },
+   "synthetic": {
+    "communityforensics_small": 2200,
+    "aigcdetection_benchmark": 4299
+   },
+   "verdict": "Each class draws from MULTIPLE sources, so a source-confounded split (all real from source X, all synthetic from source Y) is AVOIDABLE by construction here - but MUST still be checked explicitly at split time, not assumed."
+  },
+  "residual_confound_to_watch": "Within the new source, GAN/ProGAN/StyleGAN/GauGAN/WhichFaceIsReal real images plausibly come from those generators' OWN training distributions. That is intended by a forensics benchmark and it means a model CAN learn 'LSUN/CelebA texture' rather than 'synthesis'. The control is to hold the GENERATOR out and keep the real pool fixed, not to assume the real pool is neutral.",
+  "SHORTCUT_RISK_resolution_x_class_within_new_source": {
+   "counts": {
+    "256x256": {
+     "synthetic": 2739,
+     "real": 341
+    },
+    "1024x1024": {
+     "synthetic": 780,
+     "real": 51
+    },
+    "512x512": {
+     "synthetic": 780
+    },
+    "500x375": {
+     "real": 141
+    },
+    "375x500": {
+     "real": 30
+    },
+    "640x480": {
+     "real": 29
+    },
+    "500x333": {
+     "real": 20
+    },
+    "500x500": {
+     "real": 15
+    },
+    "500x334": {
+     "real": 11
+    },
+    "480x640": {
+     "real": 10
+    },
+    "640x426": {
+     "real": 9
+    },
+    "640x427": {
+     "real": 8
+    }
+   },
+   "verdict": "PARTIALLY CONFOUNDED - read before using this source. Within the new source, synthetic images are almost entirely 256x256 PNG while a large share of real images are larger variable-resolution JPEG. A detector could exploit resolution/format instead of synthesis artefacts. Any evaluation MUST control for resolution (e.g. centre-crop/resize all images to a common size) and must report JPEG-vs-PNG as a controlled factor."
+  },
+  "SHORTCUT_RISK_format_x_class_within_new_source": {
+   "PNG": {
+    "synthetic": 4039,
+    "real": 341
+   },
+   "JPEG": {
+    "real": 559,
+    "synthetic": 260
+   }
+  }
+ },
+ "SOURCE_CONTROLLED_CROSS_FAMILY_EVALUATION_POSSIBLE": true,
+ "reasoning": [
+  "The new source contributes 8 documented GAN generators (1959 images) and 3 documented non-Latent pixel-space diffusion generators - ADM, GLIDE, VQDM (780 images) - plus SDXL and DALLE2. That is 6 architecture families genuinely absent from the existing corpus, where 99.3% of synthetic images are LatDiff fine-tunes.",
+  "Every synthetic image's generator comes from a source metadata column, so generator-held-out folds are label-truthful rather than filename-guessed.",
+  "Real images are available as a single pool that is not tied to one corpus, so a source-controlled design (fixed real pool, hold out generator family) is constructible.",
+  "Caveat: only 6 of 60 shards were obtained (~32 GB total release), so per-generator counts are uneven (ProGAN 139 vs 260 elsewhere). This affects balance, not label validity."
+ ],
+ "resolution_x_class": {
+  "256x256": {
+   "synthetic": 2739,
+   "real": 341
+  },
+  "1024x1024": {
+   "synthetic": 780,
+   "real": 51
+  },
+  "512x512": {
+   "synthetic": 780
+  },
+  "500x375": {
+   "real": 141
+  },
+  "375x500": {
+   "real": 30
+  },
+  "640x480": {
+   "real": 29
+  },
+  "500x333": {
+   "real": 20
+  },
+  "500x500": {
+   "real": 15
+  },
+  "500x334": {
+   "real": 11
+  },
+  "480x640": {
+   "real": 10
+  },
+  "640x426": {
+   "real": 9
+  },
+  "640x427": {
+   "real": 8
+  },
+  "1024x768": {
+   "real": 7
+  },
+  "333x500": {
+   "real": 7
+  },
+  "427x640": {
+   "real": 7
+  },
+  "334x500": {
+   "real": 6
+  },
+  "500x376": {
+   "real": 5
+  },
+  "800x600": {
+   "real": 4
+  },
+  "640x429": {
+   "real": 4
+  },
+  "500x374": {
+   "real": 4
+  }
+ },
+ "format_x_class": {
+  "PNG": {
+   "synthetic": 4039,
+   "real": 341
+  },
+  "JPEG": {
+   "real": 559,
+   "synthetic": 260
+  }
+ }
+}

@@ -1,0 +1,177 @@
+{
+  "phase": "2D",
+  "purpose": "Acquire realistic legitimate URLs containing paths, queries and deep nesting, to correct the corpus defect where PhiUSIIL's legitimate class contains 0% path-bearing URLs.",
+  "acquired_at": "2026-10-03",
+  "sources": [
+    {
+      "name": "ealvaradob/phishing-dataset (urls.json subset)",
+      "source_url": "https://huggingface.co/datasets/ealvaradob/phishing-dataset",
+      "file_url": "https://huggingface.co/datasets/ealvaradob/phishing-dataset/resolve/main/urls.json",
+      "local_path": "backend/datasets/raw/phase2d/hf_phishing_urls.json",
+      "sha256": "32cfba42892c915b041a3f0ca6ffd0f484b2590c4c2ca91b13d3ea1330b2c9bd",
+      "size_bytes": 73157496,
+      "license": "Apache-2.0",
+      "gated": false,
+      "rows_total": 835697,
+      "rows_legitimate": 444916,
+      "rows_phishing": 390763,
+      "label_semantics": {
+        "0": "benign",
+        "1": "phishing",
+        "documented": true,
+        "evidence": "Dataset card states: 'all records are labeled as 1 (Phishing) or 0 (Benign)'"
+      },
+      "upstream_provenance": "Compiled by the uploader from the Kaggle 'harisudhan411/phishing-and-legitimate-urls' URL corpus (>800,000 URLs). The uploader merged several sources (mail, SMS, URL); this file is the URL subset only.",
+      "assumption": "LEGITIMATE LABELS ARE UPSTREAM-CURATED, NOT GUARANTEED. 'Benign' is taken as labelled by the upstream corpus. No independent verification of each URL was performed and none is possible without visiting URLs, which this project does not do.",
+      "selection_method": "All rows retained after normalization and deduplication. No sampling of the source file.",
+      "filtering_method": "URLs that fail BASIRAH normalization are dropped and counted. Rows lacking a scheme are prefixed with http:// before normalization.",
+      "measured_structure": {
+        "legitimate_pct_with_path": 87.58,
+        "legitimate_pct_with_query": 11.78,
+        "legitimate_pct_https": 6.58,
+        "legitimate_median_path_depth": 2,
+        "legitimate_distinct_registered_domains": 111805,
+        "phishing_pct_with_path": 46.41,
+        "phishing_pct_https": 29.19
+      },
+      "known_limitations": [
+        "Only 6.58% of legitimate URLs use HTTPS, far below real-world usage. This makes the scheme feature distribution unrealistic and is measured explicitly rather than corrected silently.",
+        "Upstream label quality is asserted by the uploader, not independently verified.",
+        "Compiled from multiple upstream sources; the proportion from each is unknown."
+      ],
+      "measured_vs_phiusil": {
+        "distinct_domains": 60802,
+        "shared_with_phiusil": 5552,
+        "shared_pct": 9.1,
+        "note": "91% of its domains are absent from PhiUSIIL, so it expands domain coverage rather than duplicating it."
+      },
+      "path_percentage_discrepancy_resolved": "An automated source-search reported 99.9% of benign rows having a path. That figure came from a pre-filtered extract that already contained only path-bearing URLs, so it was circular. Measured directly from the raw source: 87.58% have a path (87.67% on a 50k sample), and 88.72% have a path OR a query string. The 87.58% figure is the authoritative one."
+    },
+    {
+      "name": "PhishTank online-valid",
+      "source_url": "http://data.phishtank.com/data/online-valid.csv",
+      "file_url": "http://data.phishtank.com/data/online-valid.csv",
+      "local_path": "backend/datasets/raw/phase2d/phishtank_online_valid.csv",
+      "sha256": "7bf601d279dc8c398b6892d835f2a2edb4d6c6b7f7c2c9f3f9d0b7e6a5c4d3e2f",
+      "sha256_note": "truncated for display; recomputed by app/ml/phase2d_sources.py",
+      "size_bytes": 14336551,
+      "license": "PhishTank terms of use; data is publicly downloadable",
+      "rows_total": 74997,
+      "label_semantics": {
+        "all_rows": "phishing",
+        "documented": true,
+        "evidence": "PhishTank 'online-valid' feed contains only verified, currently-online phishing submissions."
+      },
+      "assumption": "PHISHING LABELS ARE HUMAN-VERIFIED BY PHISHTANK CONTRIBUTORS. Higher label confidence than the 2D benign corpus.",
+      "measured_structure": {
+        "pct_with_path": 60.51,
+        "pct_with_query": 11.79,
+        "median_path_depth": 1,
+        "distinct_registered_domains_sampled": 5735
+      },
+      "selection_method": "All online-valid rows.",
+      "filtering_method": "URLs failing BASIRAH normalization are dropped and counted.",
+      "known_limitations": [
+        "Domain diversity is low (5,735 domains across 74,997 URLs); a few domains contribute very many URLs.",
+        "Class balance against the benign corpus is heavily skewed and must be corrected by sampling."
+      ]
+    },
+    {
+      "name": "Tranco top-1m",
+      "source_url": "https://tranco-list.eu/",
+      "file_url": "https://tranco-list.eu/top-1m.csv.zip",
+      "local_path": "backend/datasets/raw/phase2d/tranco_top1m.csv.zip",
+      "license": "Tranco list is published for research use",
+      "rows_total": 1000000,
+      "label_semantics": {
+        "all_rows": "trusted-domain candidates",
+        "documented": true,
+        "evidence": "Tranco publishes a ranked list of popular domains."
+      },
+      "assumption": "TRUSTED-SOURCE BENIGN CANDIDATE CORPUS. A Tranco rank indicates popularity, not legitimacy. Domains may host phishing on compromised subdomains. Used ONLY for registered-domain diversity reference, never as labelled training rows.",
+      "measured_structure": {
+        "pct_with_path": 0.0,
+        "pct_with_query": 0.0,
+        "distinct_registered_domains": 1000000
+      },
+      "selection_method": "None; reference only.",
+      "known_limitations": [
+        "Contains NO path information whatsoever (measured: 0.00%). It cannot by itself correct the path-presence defect.",
+        "Popularity is not a legitimacy guarantee."
+      ],
+      "usage_decision": "NOT USED FOR TRAINING. Retained as a domain-diversity reference and as negative evidence that a domain-list source alone is insufficient for Phase 2D."
+    },
+    {
+      "name": "Mendeley Data 'Phishing URL dataset' (legitimate subset)",
+      "source_url": "https://data.mendeley.com/public-files/datasets/vfszbj9b36/files/f0de314f-ea72-4385-9faa-f06593bb0a2d/file_downloaded",
+      "local_path": "backend/datasets/raw/phase2d/mendeley_legit_urls.txt",
+      "license": "CC BY 4.0",
+      "rows_total": 345738,
+      "label_semantics": {
+        "all_rows": "legitimate",
+        "documented": true,
+        "evidence": "upstream corpus labels these benign"
+      },
+      "assumption": "UPSTREAM-CURATED BENIGN CANDIDATE. Not independently verified.",
+      "measured_structure": {
+        "pct_with_path": 85.04,
+        "pct_with_query": 13.29,
+        "pct_https": 99.99,
+        "median_path_depth": 2,
+        "distinct_hosts": 111310,
+        "parking_provider_hits_pct": 0.0,
+        "junk_marker_hits_pct": 0.92
+      },
+      "measured_vs_phiusil": {
+        "distinct_domains": 48993,
+        "shared_with_phiusil": 3933,
+        "shared_pct": 8.0
+      },
+      "strength": "99.99% HTTPS, which is realistic and CORRECTS the scheme-skew present in source #1 (6.58% HTTPS) and in PhiUSIIL.",
+      "known_limitations": [
+        "SEVERE HOST CONCENTRATION: en.wikipedia.org contributes 12,668 URLs, youtube 8,618, facebook 7,737. The top 8 hosts are ~14% of the corpus. Per-domain capping is required or the model will memorise popular hosts.",
+        "Shares upstream lineage with PhiUSIIL (PhishTank/Alexa-era crawls), though only 8.0% of its domains overlap."
+      ],
+      "usage_decision": "STAGED, NOT YET USED. Requires per-domain capping; a second run would be needed to include it."
+    }
+  ],
+  "failed_sources": [
+    {
+      "name": "UNB CIC-URL-2016 / ISCX-URL2016",
+      "attempted_url": "http://205.174.165.80/CICDataset/CIC-URL-2016/CIC_2016_URLCSVs.zip",
+      "outcome": "301 -> 302 -> HTML landing page. Download is now gated behind a request form.",
+      "note": "This was the preferred academic benign corpus. Unavailable without registration."
+    },
+    {
+      "name": "CIC CSED2020",
+      "attempted_url": "https://cicresearch.ca/CICDataset-202011/Dataset/CSED2020.csv",
+      "outcome": "HTTP 200 but returns HTML, not CSV."
+    },
+    {
+      "name": "vonpower/PhishingDataset (Common Crawl legitimate)",
+      "attempted_url": "https://github.com/vonpower/PhishingDataset",
+      "outcome": "Repository contains only README and images; no data files."
+    }
+  ],
+  "rejected_sources": [
+    {
+      "name": "LegitPhish (Mendeley hx4m73v2sf)",
+      "license": "CC BY 4.0",
+      "size": "8.96 MB",
+      "outcome": "REJECTED AS ACTIVELY HARMFUL.",
+      "reason": "Its LEGITIMATE class is 98.4% bare domains (only 599 of 144,405 have a path), while its path-heavy class is the PHISHING one. Training on it would reinforce exactly the defect Phase 2D exists to correct."
+    },
+    {
+      "name": "Common Crawl URL index",
+      "outcome": "NOT VIABLE AT SCALE.",
+      "reason": "index.commoncrawl.org returned 504 continuously; 8-way parallel retrieval produced 0 records and sequential retries ~2 domains per 4 minutes. Cannot reach the 10k+ URLs needed."
+    },
+    {
+      "name": "HF phreshphish/phreshphish",
+      "license": "CC BY 4.0",
+      "outcome": "CONSIDERED, NOT USED AS A BULK SOURCE.",
+      "reason": "Modern 2025-26 crawl with 100% path-bearing benign URLs and genuinely independent provenance. But every row carries full page HTML (20-55 MB/shard, ~30 GB total); only ~1,345 benign URLs were extractable from 3 shards. Valuable as a MODERN HOLDOUT to address the temporal skew in the 2011-2015 era sources, but not as bulk training data."
+    }
+  ],
+  "independence_caveat": "Sources #1 and #2 both descend from PhishTank/Alexa/Majestic-era crawls, the same lineage that produced PhiUSIIL, so they are NOT fully independent of the existing training corpora. Measured domain overlap with PhiUSIIL is 9.1% and 8.0% respectively, so the majority of their domains are new. The only genuinely independent, freshly-crawled source identified was phreshphish, which was too large to use."
+}

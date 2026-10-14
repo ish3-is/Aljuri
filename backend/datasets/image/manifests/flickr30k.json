@@ -1,0 +1,77 @@
+{
+ "source": "nlphuji/flickr30k (Flickr30k images)",
+ "source_url": "https://huggingface.co/datasets/nlphuji/flickr30k",
+ "license": "UNCLEAR - NOT VERIFIED. Flickr30k aggregates images from Flickr; individual photos carry their own licenses (many CC, but no dataset-level statement is present in this HF card, which has no `license:` field). Treat as research-use-only until relicensed or replaced.",
+ "license_source": "HF dataset card for nlphuji/flickr30k contains NO license field; original Flickr30k release imposes research use only.",
+ "license_caveat": "No permissive licence is claimed. Flagged rather than assumed - images are never committed to git.",
+ "paper": "Young et al., 'From Image Descriptions to Visual Denotations: New Similarity Metrics for Semantic Inference over Event Descriptions', ACL 2014",
+ "access": "public, no authentication required",
+ "download_date": "2026-10-04",
+ "classes": {
+  "0": "real (camera-captured photograph)"
+ },
+ "label_definition": {
+  "0": "real",
+  "1": "synthetic"
+ },
+ "generator_family": {
+  "documented": true,
+  "note": "Real photographs have no generator; `generator` is null BY DEFINITION, not unknown."
+ },
+ "generator_families_present": {},
+ "n_distinct_generators_obtained": 0,
+ "distinct_generators": [],
+ "unlabelled_generators": null,
+ "unlabelled_generators_note": "No synthetic images from this source; generator N/A.",
+ "total_images": 2999,
+ "per_class": {
+  "real": {
+   "n_images": 2999,
+   "resolution_distribution": {
+    "500x333": 615,
+    "500x375": 576,
+    "333x500": 273,
+    "375x500": 230,
+    "500x334": 124,
+    "500x332": 119,
+    "332x500": 48,
+    "500x500": 47,
+    "334x500": 35,
+    "500x335": 35,
+    "500x400": 28,
+    "500x281": 26,
+    "500x331": 22,
+    "500x357": 18,
+    "400x500": 16,
+    "500x328": 13,
+    "500x374": 13,
+    "335x500": 13,
+    "500x336": 10,
+    "500x321": 10,
+    "500x338": 9,
+    "500x377": 8,
+    "500x372": 8,
+    "500x330": 8,
+    "500x350": 8
+   },
+   "resolution_distinct_values": 366,
+   "format_distribution": {
+    "JPEG": 2999
+   },
+   "width_stats": {
+    "min": 200,
+    "median": 500,
+    "max": 500
+   },
+   "height_stats": {
+    "min": 183,
+    "median": 375,
+    "max": 500
+   },
+   "checksums": "per-image sha256 in datasets/image/manifests/_flickr30k_records.json"
+  }
+ },
+ "provenance_caveats": [],
+ "archive_sha256": "2ce2420c0d17f0531deaa89ac657b4d5067ec519da16ff1ea12acbf5619c7391",
+ "archive_bytes": 4390240817
+}

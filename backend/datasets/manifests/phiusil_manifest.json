@@ -1,0 +1,25 @@
+{
+  "dataset_name": "phiusil",
+  "source_url": "https://archive.ics.uci.edu/dataset/967/phiusil-phishing-url-dataset",
+  "original_filename": "phiusil_raw.csv",
+  "downloaded_at": "2026-10-03T08:02:16.517009+00:00",
+  "sha256": "a236549cd369cd80bd478ff8e1779cbf44c58d5c3f79f7a51a1adbed7d06d1c6",
+  "size_bytes": 56854345,
+  "row_count": 235795,
+  "class_distribution": {
+    "legitimate": 134850,
+    "phishing": 100512
+  },
+  "url_column": "URL",
+  "label_column": "label",
+  "duplicate_rows": 425,
+  "duplicate_urls": 425,
+  "conflicting_labels": 0,
+  "malformed_urls": 8,
+  "null_urls": 0,
+  "null_labels": 0,
+  "license": "CC BY 4.0 (per UCI listing)",
+  "publication_date": "2020",
+  "creators": "Arvind Prasad, Shalini Chandra",
+  "notes": "Only URL and label used. The 54 precomputed columns are ignored because many derive from page content unavailable during URL-only inference (training-serving skew). LABEL ORIENTATION: the source file encodes 1=legitimate, 0=phishing; audit_csv flips it to 1=phishing internally."
+}
