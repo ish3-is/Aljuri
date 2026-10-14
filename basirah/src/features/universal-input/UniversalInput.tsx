@@ -67,7 +67,12 @@ export function UniversalInput({
   const isResult = state === 'result'
   const isUrlMode = modality === 'url'
 
-  /** Shared intake path for drag-drop, file picker and clipboard. */
+  // Showcase mode disables all real intake paths. The UI remains fully
+  // navigable; only analysis drops to the clearly-labelled sample surface.
+  const isShowcase = import.meta.env.VITE_APP_MODE === 'showcase'
+  const isShowcaseBusy = isShowcase && isBusy
+  const isShowcaseResult = isShowcase && isResult
+  const isShowcaseIdle = isShowcase && !isBusy && !hasSignal && !isResult
   const acceptFile = useCallback(
     (file: File) => {
       const kind = detectSignalKind(file.name, file)
@@ -169,7 +174,7 @@ export function UniversalInput({
         <button
           type="button"
           onClick={handleSubmitUrl}
-          disabled={isBusy || !value.trim()}
+          disabled={isShowcaseBusy || isBusy || !value.trim()}
           className={cn(
             'inline-flex shrink-0 items-center gap-2 rounded-lg border px-4 py-3 text-sm transition-all duration-200',
             'disabled:pointer-events-none disabled:opacity-35',
@@ -177,9 +182,9 @@ export function UniversalInput({
               ? 'border-signal/35 bg-signal/10 text-signal hover:border-signal/55 hover:bg-signal/16'
               : 'border-line bg-surface-raised/60 text-text-muted hover:border-line-bright hover:text-text',
           )}
-        >
-          {t('actions.analyze')}
-        </button>
+          >
+          {isShowcase ? t('showcase.liveAnalysisAvailable') : t('actions.analyze')}
+          </button>
       </Magnetic>
     </div>
   )
