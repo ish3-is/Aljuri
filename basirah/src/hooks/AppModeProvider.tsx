@@ -9,6 +9,7 @@
 import { createContext, useMemo } from 'react'
 import { APP_MODE } from './appMode'
 
+/* eslint-disable react-refresh/only-export-components */
 export interface AppModeContextValue {
   /** Whether this build is the full local runtime. */
   isLocal: boolean

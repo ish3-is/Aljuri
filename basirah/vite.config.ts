@@ -7,11 +7,13 @@ import { defineConfig } from 'vite'
 // hardcoding a root-only asset prefix. Vite rewrites every emitted asset
 // URL at build time, including hashed bundles.
 //
-// GitHub Pages (showcase) overrides this at build time via the workflow:
-// `VITE_APP_MODE=showcase` + `VITE_GITHUB_PAGES_BASE=/Aljuri/` → base '/Aljuri/'.
-// Local development and local builds keep the relative base './'.
+// Note: Vite's `base` is a build-time defineConfig field, NOT an env
+// var. `VITE_*` vars are only usable inside the app via
+// `import.meta.env.VITE_*`. The GitHub Pages workflow therefore sets
+// BASE_URL_OVERRIDE explicitly (see .github/workflows/deploy-pages.yml),
+// and this value is baked into the bundle at build time.
 export default defineConfig({
-  base: './',
+  base: process.env.BASE_URL_OVERRIDE ?? './',
   plugins: [react(), tailwindcss()],
 
    server: {

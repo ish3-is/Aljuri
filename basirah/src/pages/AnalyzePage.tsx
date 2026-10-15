@@ -1,6 +1,8 @@
 import { lazy, Suspense } from 'react'
 import { useState } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
+import { useAppMode } from '../hooks/useAppMode'
+import { SHOWCASE_RESULT } from '../features/analysis/showcaseSample'
 import { File as FileIcon,
   FileText,
   Image as ImageIcon,
@@ -126,6 +128,12 @@ export function AnalyzePage() {
   const isResult = state === 'result' && result !== null
   const showJourney = isAnalyzing || isResult
   const showResultPanels = isResult
+
+  // In showcase mode live analysis is unavailable: the verdict panels
+  // and the real submit action are all replaced by the clearly labelled
+  // static sample surface. Local mode is unchanged.
+  const { isShowcase } = useAppMode()
+  const [showSample, setShowSample] = useState(false)
 
   /**
    * The image-only panels render from `imageDetail`, which the image
@@ -290,6 +298,36 @@ export function AnalyzePage() {
             onReset={reset}
             onDragStateChange={setDragging}
           />
+
+          {/* Showcase mode: the real submit is disabled/intercepted and
+              the View Sample Analysis button takes its place. Local mode
+              is unchanged — the submit below is untouched. */}
+          {isShowcase && (
+            <div className="mt-6 flex justify-center">
+              <button
+                type="button"
+                onClick={() => setShowSample(true)}
+                className="inline-flex items-center gap-2 rounded-full border border-signal/35 bg-signal/10 px-5 py-2.5 text-[0.78rem] text-signal transition-colors duration-200 hover:border-signal/55 hover:bg-signal/15"
+              >
+                <FileText size={13} />
+                {t('analyze.sampleButton')}
+              </button>
+            </div>
+          )}
+
+          {/* Sample surface in showcase mode: the existing EvidenceResultView
+              renders the static showcase sample result. No backend — the
+              EvidenceResultView is the existing result rendering path, so
+              this reuses it rather than duplicating the result UI.
+              Local mode is unchanged. */}
+          {showSample && isShowcase && (
+            <div className="mt-6 flex justify-center">
+              <div className="w-full max-w-[1280px]">
+                <p className="mono-label text-text-dim">{t('analyze.sampleLabel')}</p>
+                <EvidenceResultView evidence={SHOWCASE_RESULT.evidence} />
+              </div>
+            </div>
+          )}
 
           {/* Three-way headline, directly beneath the input the user
               just submitted, so the verdict lands before any

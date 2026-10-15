@@ -57,6 +57,12 @@ jobs:
           # clearly-labelled demo surface instead.
           VITE_APP_MODE: "showcase"
 
+          # Vite `base` is a build-time defineConfig field (NOT an env var),
+          # so it cannot be set via VITE_* — it must be a plain env var.
+          # This workflow targets https://ish3-is.github.io/Aljuri/, so the
+          # built asset URLs must be prefixed with the GitHub Pages subpath.
+          BASE_URL_OVERRIDE: "/Aljuri/"
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 

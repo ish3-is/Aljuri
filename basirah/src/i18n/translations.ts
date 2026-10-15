@@ -1681,6 +1681,13 @@ export const translations = {
       en: 'DEMO — sample analysis result (static, not live).',
       ar: 'عينة تجريبية — نتيجة تحليل ثابتة (ليست حية).',
     },
+    // Button label on the input surface, used by AnalyzePage.tsx.
+    // (The grouped `field`/`value` sub-keys under `sample` carry the
+    // evidence result rendering form; this is the standalone button.)
+    sampleButton: {
+      en: 'View Sample Analysis',
+      ar: 'عرض تحليل تجريبي',
+    },
     sample: {
       field: {
         assessment: { en: 'Assessment', ar: 'تقييم' },
