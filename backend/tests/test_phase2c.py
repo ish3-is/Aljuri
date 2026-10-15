@@ -11,6 +11,7 @@ metrics cannot see — a model can report AUC 0.998 and still flag
 from __future__ import annotations
 
 import csv
+import json
 from pathlib import Path
 
 import numpy as np
@@ -513,9 +514,90 @@ class TestProductionModelSemanticBehaviour:
 # ====================================================================
 
 
-class TestV2Artifacts:
-    def test_v1_still_present(self) -> None:
-        assert (BACKEND / "models" / "basirah-url-v1.joblib").exists()
+# ====================================================================#
+# ACTIVE PRODUCTION MODEL ARTEFACT
+# Phase 2E promoted basirah-url-v3 over the retired basirah-url-v1.
+# models/ACTIVE_MODEL.json points at v3 (models/basirah-url-v3.joblib).
+# The retired v1 is NOT required for a live deployment: the pointer is
+# authoritative, and v1 is merely retained as an optional rollback artefact.
+# ====================================================================#
+
+class TestActiveProductionModelArtefact:
+    """The active production model is named by a pointer, not a hard-coded
+    filename, so the assertion must read models/ACTIVE_MODEL.json and then
+    check that the pointed bundle (basirah-url-v3.joblib) is present, real,
+    non-empty, and not a Git LFS pointer."""
+
+    @staticmethod
+    def _active_bundle_name() -> str:
+        """Resolve the bundle actually served in production from the
+        models/ACTIVE_MODEL.json pointer (no hard-coding of a filename)."""
+        from app.ml.production import ACTIVE_POINTER, MODELS_DIR
+
+        if ACTIVE_POINTER.exists():
+            payload = json.loads(ACTIVE_POINTER.read_text(encoding="utf-8"))
+            bundle = str(payload.get("bundle", "")).strip()
+            if bundle:
+                return bundle
+
+        # Degraded: no pointer -> the previous known-good bundle (v1) is the
+        # fallback bundle name used internally (FALLBACK_BUNDLE).
+        return "basirah-url-v1.joblib"
+
+    def test_active_model_pointer_resolves_to_v3(self) -> None:
+        from app.ml.production import ACTIVE_POINTER, MODELS_DIR
+
+        assert ACTIVE_POINTER.exists(), "ACTIVE_MODEL.json must be present"
+        payload = json.loads(ACTIVE_POINTER.read_text(encoding="utf-8"))
+        bundle = str(payload.get("bundle", ""))
+        assert bundle == "basirah-url-v3.joblib", (
+            "Phase 2E promotes basirah-url-v3; the pointer must name it"
+        )
+
+    def test_active_bundle_is_present_and_not_a_git_lfs_pointer(self) -> None:
+        from app.ml.model_readiness import check_model, MIN_FILE_SIZE
+        from app.ml.production import MODELS_DIR
+
+        bundle = MODELS_DIR / self._active_bundle_name()
+        readiness = check_model(bundle, minimum_size=MIN_FILE_SIZE)
+        assert readiness.available, (
+            f"active model {bundle.name} must be present, real, non-empty "
+            f"and not a Git LFS pointer"
+        )
+
+    def test_active_model_passes_model_readiness_preflight(self) -> None:
+        from app.ml.model_readiness import preflight_models
+        from app.ml.production import MODELS_DIR
+
+        report = preflight_models(models_dir=MODELS_DIR, minimum_size=16_384)
+        active_ready = any(
+            m.name == "basirah-url-v3.joblib"
+            for m in report.models
+        )
+        assert active_ready, (
+            "active model must be part of the production preflight report"
+        )
+        assert report.ready, (
+            "the active production model must pass the model-readiness "
+            "preflight before startup (a retired v1 is not required)"
+        )
+
+    def test_v1_is_not_the_active_production_model(self) -> None:
+        # v1 is retained as an optional rollback artefact but MUST NOT be
+        # the model the service loads. The pointer is authoritative.
+        from app.ml.production import ACTIVE_POINTER, MODELS_DIR, model_path
+
+        assert ACTIVE_POINTER.exists()
+        payload = json.loads(ACTIVE_POINTER.read_text(encoding="utf-8"))
+        active = str(payload.get("bundle", ""))
+        assert active != "basirah-url-v1.joblib", (
+            "the active production model pointer must not name the "
+            "retired v1"
+        )
+        # The service's resolved model path must land on the v3 bundle.
+        assert model_path() == MODELS_DIR / "basirah-url-v3.joblib", (
+            "resolved production model path must be the v3 bundle"
+        )
 
     def test_v1_metadata_has_no_filesystem_paths(self) -> None:
         path = BACKEND / "models" / "basirah-url-v1.metadata.json"
