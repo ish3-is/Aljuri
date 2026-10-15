@@ -116,6 +116,52 @@ The dev server runs on port **5199** (Vite dev server on
 `http://127.0.0.1:5199`). API calls are proxied to the backend at
 `http://127.0.0.1:8000` via the Vite proxy (`/api`).
 
+
+## Delivery modes
+
+Basirah is delivered in two modes with very different guarantees:
+
+### Live Showcase (GitHub Pages)
+
+URL: `https://ish3-is.github.io/Aljuri/`
+
+The automated Pages workflow (`.github/workflows/deploy-pages.yml`,
+`VITE_APP_MODE=showcase`) builds a **static, demo-only** frontend. It makes
+**no** API calls, runs **no** ML inference, and performs **no** live
+analysis. It renders the static sample result (`View Sample Analysis`)
+plus a notice that live analysis requires the local backend. See
+`basirah/src/features/analysis/showcaseSample.ts`.
+
+Do not claim the Pages build performs real model inference.
+
+### Full Local Mode
+
+The **Full Local Mode** runs the real backend and the real models:
+
+```powershell
+cd backend
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+uvicorn app.main:app --host 127.0.0.1 --port 8000
+
+cd basirah
+npm ci
+copy .env.example .env.local
+npm run dev
+```
+
+- Frontend: `http://127.0.0.1:5199` (Vite dev server, `/api` proxyed to the
+  backend on `http://127.0.0.1:8000`)
+- Backend: live URL/image/evidence analysis, canonical verdict, evidence
+  fusion, evidence graph, timeline, detector outputs, report generation --
+  all model-backed.
+- Models: `backend/models/basirah-url-v3.joblib`,
+  `backend/models/detector_b_clip_probe.joblib`, and the image model under
+  `backend/models/multifamily_candidates/`.
+
+The standalone "Local setup" section below gives the step-by-step install.
+
 ### Environment variables
 
 See `.env.example` (frontend). The production example uses the same-origin
