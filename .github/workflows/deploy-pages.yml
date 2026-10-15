@@ -47,20 +47,18 @@ jobs:
           cd basirah
           npm run build
         env:
-          # Same-origin /api for GitHub Pages subpath deployment.
-          # Set VITE_API_BASE_URL in production only when the backend is
-          # hosted on a separate domain (external HTTPS backend).
-          VITE_API_BASE_URL: ""
-
-          # BUILD-TIME DELIVERY MODE — GitHub Pages runs in showcase mode.
-          # Showcase mode disables live API calls and renders a static,
-          # clearly-labelled demo surface instead.
+          # Delivery mode is baked at build time by Vite's define plugin
+          # (src/hooks/appMode.tsx reads VITE_APP_MODE). GitHub Pages runs
+          # in showcase mode, which intentionally makes NO live API calls:
+          # analysis falls back to the static sample result (EvidenceResultView).
           VITE_APP_MODE: "showcase"
 
-          # Vite `base` is a build-time defineConfig field (NOT an env var),
-          # so it cannot be set via VITE_* — it must be a plain env var.
-          # This workflow targets https://ish3-is.github.io/Aljuri/, so the
-          # built asset URLs must be prefixed with the GitHub Pages subpath.
+          # Vite's `base` is a build-time defineConfig field (NOT an env var),
+          # so it cannot be set via VITE_* — it must be a plain env var. We do
+          # NOT set VITE_API_BASE_URL: in showcase mode there is literally no
+          # backend on GitHub Pages, and any /api POST would 405. Showcase UX
+          # substitutes the static sample result, so no network analysis path
+          # exists to hit. Local development sets VITE_API_BASE_URL in .env.
           BASE_URL_OVERRIDE: "/Aljuri/"
 
       - name: Setup Pages
