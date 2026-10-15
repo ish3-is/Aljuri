@@ -72,17 +72,31 @@ export function UniversalInput({
   // Showcase mode disables all real intake paths. The UI remains fully
   // navigable; only analysis drops to the clearly-labelled sample surface.
   const isShowcaseBusy = isShowcase && isBusy
+
+  // Hard guard (defense in depth): in showcase mode no signal may ever
+  // reach the backend, regardless of input or button state. The button
+  // disable attribute is a UX cue, not a security boundary.
+  const refuseSubmit = useCallback(
+    (signal: Signal) => {
+      if (isShowcase) {
+        return
+      }
+      onSubmit(signal)
+    },
+    [isShowcase, onSubmit],
+  )
+
   const acceptFile = useCallback(
     (file: File) => {
       const kind = detectSignalKind(file.name, file)
-      onSubmit({
+      refuseSubmit({
         kind,
         label: file.name,
         file,
         previewUrl: file.type.startsWith('image/') ? URL.createObjectURL(file) : undefined,
       })
     },
-    [onSubmit],
+    [refuseSubmit],
   )
 
   const dragHandlers = useDragZone(
@@ -95,14 +109,15 @@ export function UniversalInput({
 
   const handleSubmitUrl = useCallback(() => {
     const trimmed = value.trim()
-    if (!trimmed || isBusy) return
-    onSubmit({ kind: detectSignalKind(trimmed), label: trimmed })
-  }, [value, isBusy, onSubmit])
+    if (isShowcase || !trimmed || isBusy) return
+    refuseSubmit({ kind: detectSignalKind(trimmed), label: trimmed })
+  }, [isShowcase, value, isBusy, refuseSubmit])
 
   const loadExample = useCallback(() => {
+    if (isShowcase) return
     setValue(EXAMPLE_URL)
     onSubmit({ kind: 'url', label: EXAMPLE_URL })
-  }, [onSubmit])
+  }, [isShowcase, onSubmit])
 
   const openFilePicker = useCallback(() => {
     fileInputRef.current?.click()
@@ -173,7 +188,7 @@ export function UniversalInput({
         <button
           type="button"
           onClick={handleSubmitUrl}
-          disabled={isShowcaseBusy || isBusy || !value.trim()}
+          disabled={isShowcase || isShowcaseBusy || isBusy || !value.trim()}
           className={cn(
             'inline-flex shrink-0 items-center gap-2 rounded-lg border px-4 py-3 text-sm transition-all duration-200',
             'disabled:pointer-events-none disabled:opacity-35',
